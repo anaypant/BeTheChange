@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Be The Change</string>
+    <string name="hot_topics">Hot Topics</string>
+    <string name="economy">Economy</string>
+    <string name="environment">Environment</string>
+    <string name="society">Society</string>
+    <string name="climate">Climate</string>
+</resources>

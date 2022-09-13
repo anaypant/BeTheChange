@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/social"
+        android:layout_width="100sp"
+        android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="630dp"
+        android:backgroundTint="@color/society_background_color"
+        android:text="@string/society"
+        android:textColor="#5C6BC0"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/environment" />
+
+    <Button
+        android:id="@+id/environment"
+        android:layout_width="100sp"
+        android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@color/environment_background_color"
+        android:text="@string/climate"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="@id/social"
+        app:layout_constraintEnd_toStartOf="@id/social"
+        app:layout_constraintStart_toEndOf="@+id/economy"
+        app:layout_constraintTop_toTopOf="@id/social"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/economy"
+        android:layout_width="100sp"
+        android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@color/economy_background_color"
+        android:text="@string/economy"
+        android:textColor="#37474F"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/environment"
+        app:layout_constraintEnd_toStartOf="@+id/environment"
+        app:layout_constraintStart_toEndOf="@+id/hotTopics"
+        app:layout_constraintTop_toTopOf="@id/environment" />
+
+
+    <Button
+        android:id="@+id/hotTopics"
+        android:layout_width="100sp"
+        android:layout_height="48dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="@color/hot_topics_background_color"
+        android:text="@string/hot_topics"
+        android:textColor="#000000"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="@id/economy"
+        app:layout_constraintEnd_toStartOf="@+id/economy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/economy"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
