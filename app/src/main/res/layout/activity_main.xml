@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+
+    >
+
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -13,8 +16,6 @@
         android:layout_marginTop="0dp"
         android:background="@color/white"
         android:id="@+id/toolbar">
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,31 +29,51 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
         </RelativeLayout>
-
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/NewsTabLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:id="@+id/HomeTabLayout"
         android:layout_below="@id/toolbar"
-        app:tabSelectedTextColor="#03A9F4"
-        app:tabTextColor="#6188CF"
-        app:tabIndicatorHeight="3.5dp"
         android:layout_marginTop="0dp"
-        android:backgroundTint="@color/white">
+        android:backgroundTint="@color/white"
+        app:tabIndicatorHeight="3.5dp"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="#03A9F4"
+        app:tabTextColor="#6188CF">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/TrendingTab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home"
-            android:id="@+id/HomeTab"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Categories"
-            android:id="@+id/CategoryTab"/>
+            android:text="Trending" />
 
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/EconomyTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Economy" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/EnvironmentTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Environment" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/SocietyTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Society" />
     </com.google.android.material.tabs.TabLayout>
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/NewsTabLayout"
+        android:layout_marginTop="0dp">
+
+    </androidx.viewpager.widget.ViewPager>
 </RelativeLayout>
