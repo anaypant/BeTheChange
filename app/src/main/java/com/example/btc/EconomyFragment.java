@@ -30,7 +30,7 @@ public class EconomyFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.econ_layout, null);
-        recyclerViewofEconomy = v.findViewById(R.id.recycleviewoftrending);
+        recyclerViewofEconomy = v.findViewById(R.id.recycleviewofeconomy);
         modelClassArrayList = new ArrayList<>();
         recyclerViewofEconomy.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NewsViewAdapter(getContext(), modelClassArrayList);

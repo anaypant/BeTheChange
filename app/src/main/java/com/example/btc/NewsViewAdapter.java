@@ -3,6 +3,7 @@ package com.example.btc;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,17 +44,30 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,webView.class);
-                intent.putExtra("url",modelClassArrayList.get(position).getUrl());
+//                Intent intent = new Intent(context,webView.class);
+//                intent.putExtra("url",modelClassArrayList.get(position).getUrl());
+//                context.startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(modelClassArrayList.get(position).getUrl()));
                 context.startActivity(intent);
+                //redirect to URL in browser
             }
         });
 
-        holder.time.setText("Published At: "+modelClassArrayList.get(position).getPublishedAt());
-        holder.author.setText("Published At: "+modelClassArrayList.get(position).getAuthor());
-        holder.heading.setText("Published At: "+modelClassArrayList.get(position).getTitle());
-        holder.content.setText("Published At: "+modelClassArrayList.get(position).getDescription());
-        Glide.with(context).load(modelClassArrayList.get(position).getUrlToImage()).into(holder.imageView);
+        holder.time.setText("Source: "+modelClassArrayList.get(position).getPublishedAt());
+        holder.author.setText("By: "+modelClassArrayList.get(position).getAuthor());
+        holder.heading.setText(modelClassArrayList.get(position).getTitle());
+        //content
+        // get content
+        //feed into ai
+        //get output
+        //set text to output
+        //@TODO aiclub
+        holder.content.setText(modelClassArrayList.get(position).getDescription());
+        if(holder.imageView != null){
+            Glide.with(context).load(modelClassArrayList.get(position).getUrlToImage()).into(holder.imageView);
+
+        }
 
 
 
@@ -64,7 +78,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
         return modelClassArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView heading,content,author,category,time;
         CardView cardView;
         ImageView imageView;
@@ -75,7 +89,8 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
             content = itemView.findViewById(R.id.NewsContent);
             author = itemView.findViewById(R.id.NewsAuthor);
             time = itemView.findViewById(R.id.NewsPublished);
-            cardView = cardView.findViewById(R.id.NewsCardView);
+            imageView = itemView.findViewById(R.id.NewsImageView);
+            cardView = itemView.findViewById(R.id.NewsCardView);
         }
     }
 }

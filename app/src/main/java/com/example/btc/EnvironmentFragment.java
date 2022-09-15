@@ -29,8 +29,8 @@ public class EnvironmentFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //return super.onCreateView(inflater, container, savedInstanceState);
-        View v = inflater.inflate(R.layout.econ_layout, null);
-        recyclerViewofEnvironment = v.findViewById(R.id.recycleviewoftrending);
+        View v = inflater.inflate(R.layout.environment_layout, null);
+        recyclerViewofEnvironment = v.findViewById(R.id.recycleviewofenvironment);
         modelClassArrayList = new ArrayList<>();
         recyclerViewofEnvironment.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NewsViewAdapter(getContext(), modelClassArrayList);
