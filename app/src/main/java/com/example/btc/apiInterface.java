@@ -13,7 +13,12 @@ public interface apiInterface {
             @Query("pageSize") int pageSize,
             @Query("apiKey") String apiKey
     );
-
+    @GET("everything")
+    Call<TrendingNews> getKeywordNews(
+            @Query("pageSize")  int pageSize,
+            @Query("q") String keyword,
+            @Query("apiKey") String apiKey
+    );
     @GET("top-headlines")
     Call<TrendingNews> getCategoryNews(
             @Query("country") String country,

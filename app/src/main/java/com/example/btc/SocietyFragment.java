@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +25,7 @@ public class SocietyFragment extends Fragment {
     String country = "us";
     String category = "society";
     private RecyclerView recyclerViewofSociety;
+    private final String[] keywords = new String[]{"+sexism","+LGBTQ","+abortion","+Abortion","+racism"};
 
     @Nullable
     @Override
@@ -40,19 +42,22 @@ public class SocietyFragment extends Fragment {
     }
 
     private void findNews() {
-        apiUtils.getApiInterface().getCategoryNews(country, category,100,api).enqueue(new Callback<TrendingNews>() {
-            @Override
-            public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
-                if(response.isSuccessful()){
-                    modelClassArrayList.addAll(response.body().getArticles());
-                    adapter.notifyDataSetChanged();
+        for(String key:keywords){
+            apiUtils.getApiInterface().getKeywordNews(100,key, api).enqueue(new Callback<TrendingNews>() {
+                @Override
+                public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
+                    if(response.isSuccessful()){
+                        modelClassArrayList.addAll(response.body().getArticles());
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<TrendingNews> call, Throwable t) {
+                @Override
+                public void onFailure(Call<TrendingNews> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
+
     }
 }

@@ -35,6 +35,7 @@ public class TrendingFragment extends Fragment {
         recyclerViewoftrending.setAdapter(adapter);
 
         findNews();
+
         return v;
     }
 

@@ -22,7 +22,7 @@ public class EconomyFragment extends Fragment {
     ArrayList<ModelClass> modelClassArrayList;
     NewsViewAdapter adapter;
     String country = "us";
-    String category = "economy";
+    String[] keywords = new String[]{"+Economy", "+bitcoin", "+crypto", "+wall street"};
     private RecyclerView recyclerViewofEconomy;
 
     @Nullable
@@ -37,23 +37,34 @@ public class EconomyFragment extends Fragment {
         recyclerViewofEconomy.setAdapter(adapter);
 
         findNews();
+        for (int z = 0; z < modelClassArrayList.size();z++){
+            String content = modelClassArrayList.get(z).getDescription();
+            String head = modelClassArrayList.get(z).getTitle();
+            String urltoImg = modelClassArrayList.get(z).getUrlToImage();
+            if(content == null || head == null || urltoImg==null){
+                modelClassArrayList.remove(z);
+                z--;
+            }
+        }
         return v;
     }
 
     private void findNews() {
-        apiUtils.getApiInterface().getCategoryNews(country, category,100,api).enqueue(new Callback<TrendingNews>() {
-            @Override
-            public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
-                if(response.isSuccessful()){
-                    modelClassArrayList.addAll(response.body().getArticles());
-                    adapter.notifyDataSetChanged();
+        for(String key:keywords){
+            apiUtils.getApiInterface().getKeywordNews(100,key, api).enqueue(new Callback<TrendingNews>() {
+                @Override
+                public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
+                    if(response.isSuccessful()){
+                        modelClassArrayList.addAll(response.body().getArticles());
+                        adapter.notifyDataSetChanged();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<TrendingNews> call, Throwable t) {
+                @Override
+                public void onFailure(Call<TrendingNews> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
     }
 }

@@ -53,7 +53,15 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
                 //redirect to URL in browser
             }
         });
-
+        for (int z = 0; z < modelClassArrayList.size();z++){
+            String content = modelClassArrayList.get(z).getDescription();
+            String head = modelClassArrayList.get(z).getTitle();
+            String urltoImg = modelClassArrayList.get(z).getUrlToImage();
+            if(content == null || head == null || urltoImg==null){
+                modelClassArrayList.remove(z);
+                z--;
+            }
+        }
         holder.time.setText("Source: "+modelClassArrayList.get(position).getPublishedAt());
         holder.author.setText("By: "+modelClassArrayList.get(position).getAuthor());
         holder.heading.setText(modelClassArrayList.get(position).getTitle());
