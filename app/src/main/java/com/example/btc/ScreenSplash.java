@@ -23,6 +23,6 @@ public class ScreenSplash extends AppCompatActivity {
                 finish();
             }
 
-        },4000);
+        },3000);
     }
 }

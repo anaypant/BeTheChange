@@ -27,7 +27,17 @@
                 android:text="Be The Change"
                 android:textColor="#03A9F4"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/BTCHeader"/>
+
+            <ImageButton
+                android:id="@+id/UserProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_person_24"
+                android:layout_alignRight="@id/BTCHeader"
+                android:layout_marginRight="-240dp"/>
+
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 

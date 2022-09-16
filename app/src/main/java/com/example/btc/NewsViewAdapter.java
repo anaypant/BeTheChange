@@ -57,7 +57,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
             String content = modelClassArrayList.get(z).getDescription();
             String head = modelClassArrayList.get(z).getTitle();
             String urltoImg = modelClassArrayList.get(z).getUrlToImage();
-            if(content == null || head == null || urltoImg==null){
+            if(content == null || head == null || urltoImg==null || content.equals("")){
                 modelClassArrayList.remove(z);
                 z--;
             }

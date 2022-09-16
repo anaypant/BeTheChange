@@ -24,9 +24,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".webView"
-            android:exported="false" />
-        <activity
             android:name=".ScreenSplash"
             android:exported="true" >
             <intent-filter>
