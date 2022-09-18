@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="@color/purple_200">
+    android:background="#84ABCA">
 
     <TextView
         android:id="@+id/signIn"
@@ -18,7 +18,7 @@
         android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="Welcome!"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="35dp"
         android:textStyle="bold" />
     <TextView
@@ -73,13 +73,15 @@
         android:padding="20dp"
         android:text=""
         android:textColor="@color/white"
-        android:textColorHint="@color/black" />
+        android:textColorHint="@color/black"
+        android:inputType="textPassword"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordField"
-        android:text="Enter Email (1st time Users)"
+        android:text="Enter Email"
         android:textColor="@color/white"
         android:textColorHint="@color/black"
         android:id="@+id/EmailNameField"

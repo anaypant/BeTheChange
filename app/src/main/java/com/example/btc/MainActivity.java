@@ -12,8 +12,10 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     TabItem trending, economy, climate, social;
     PagerAdapter pagerAdapter;
+    ImageButton profileButton;
     Toolbar toolbar;
     String apiKey = "2a2429ecaaa4496680cf6d23b9e8dc0a";
     String[] econKeys = new String[]{"+Economy", "+bitcoin", "+crypto", "+wall street"};
@@ -68,6 +71,26 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.NewsTabLayout);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(),4);
         viewPager.setAdapter(pagerAdapter);
+        profileButton = findViewById(R.id.UserProfile);
+
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // go to settings page
+                // we want to sign out
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(MainActivity.this, settings.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                },0);
+
+            }
+        });
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

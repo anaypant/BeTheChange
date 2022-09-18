@@ -34,9 +34,18 @@
                 android:id="@+id/UserProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_person_24"
                 android:layout_alignRight="@id/BTCHeader"
-                android:layout_marginRight="-240dp"/>
+                android:layout_marginRight="-240dp"
+                app:srcCompat="@drawable/ic_baseline_person_24" />
+
+            <ImageButton
+                android:id="@+id/AddFriends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/BTCHeader"
+                android:layout_marginRight="-190dp"
+                app:srcCompat="@drawable/ic_baseline_group_add_24"
+                android:backgroundTint="#86BC99"/>
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
