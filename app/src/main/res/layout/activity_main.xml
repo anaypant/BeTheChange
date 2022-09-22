@@ -16,26 +16,41 @@
         android:layout_marginTop="0dp"
         android:background="@color/white"
         android:id="@+id/toolbar">
+
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
 
             <TextView
+                android:id="@+id/BTCHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Be The Change"
+                android:text="Be The \nChange"
                 android:textColor="#03A9F4"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/NeatUserTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/BTCHeader"
+                android:layout_marginEnd="-190dp"
+                android:text="Howdy,user!"
+                android:textColor="@color/black"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:id="@+id/BTCHeader"/>
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/UserProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@id/BTCHeader"
-                android:layout_marginRight="-240dp"
+                android:layout_marginRight="-335dp"
                 app:srcCompat="@drawable/ic_baseline_person_24" />
 
             <ImageButton
@@ -43,9 +58,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@id/BTCHeader"
-                android:layout_marginRight="-190dp"
-                app:srcCompat="@drawable/ic_baseline_group_add_24"
-                android:backgroundTint="#86BC99"/>
+                android:layout_marginRight="-275dp"
+                android:backgroundTint="#86BC99"
+                app:srcCompat="@drawable/ic_baseline_group_add_24" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/AddUserContainer"
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:layout_below="@id/AddFriends"
+                android:layout_marginTop="0dp"
+                android:visibility="invisible"/>
 
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>

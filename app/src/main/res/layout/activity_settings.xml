@@ -37,10 +37,10 @@
         android:id="@+id/backArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_baseline_arrow_back_24"
         android:layout_below="@id/SignOut"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="#2A6A95"/>
+        android:backgroundTint="#2A6A95"
+        app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
 
 </RelativeLayout>

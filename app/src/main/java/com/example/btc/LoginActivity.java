@@ -96,6 +96,10 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Email is Invalid", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(pwd.length() < 6){
+                    Toast.makeText(LoginActivity.this, "Please enter min. 6 length password.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 flag = false;
                 auth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
@@ -103,27 +107,39 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                         if(task.isSuccessful()){
                             if(Objects.requireNonNull(task.getResult().getSignInMethods()).size() == 0){
-                                auth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                auth.createUserWithEmailAndPassword(email, pwd).
+                                        addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
-                                        Toast.makeText(LoginActivity.this, "Please check your email for verification (spam category)", Toast.LENGTH_LONG).show();
-                                        promptEmail();
+                                        if(task.isSuccessful()){
+                                            Toast.makeText(LoginActivity.this, "Please check your email for verification (spam category)", Toast.LENGTH_LONG).show();
+                                            promptEmail();
 
-                                        FirebaseUser z = auth.getCurrentUser();
-                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(user)
-                                                .build();
+                                            FirebaseUser u = auth.getCurrentUser();
+                                            HashMap<Object, String> h = new HashMap<>();
+                                            h.put("email",email);
+                                            h.put("name",user);
+                                            h.put("uid",u.getUid());
+                                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users");
+                                            db.child(u.getUid()).setValue(h);
 
-                                        z.updateProfile(profileUpdates)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Toast.makeText(LoginActivity.this, "Username updated.", Toast.LENGTH_SHORT).show();
+                                            FirebaseUser z = auth.getCurrentUser();
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(user)
+                                                    .build();
+
+                                            z.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Toast.makeText(LoginActivity.this, "Username updated.", Toast.LENGTH_SHORT).show();
+                                                            }
                                                         }
-                                                    }
-                                                });
-                                        Map<String, String> a = new HashMap<>();
+                                                    });
+
+                                        }
+
                                     }
 
                                 });
@@ -201,24 +217,35 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     if(checkIfEmailVerified()){
                                         FirebaseUser u = auth.getCurrentUser();
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+                                        ref.addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for(DataSnapshot ds: snapshot.getChildren()){
+                                                    ModelClassAddUsers mU = ds.getValue(ModelClassAddUsers.class);
+                                                    if(mU.getName().equals(user) && mU.getEmail().equals(email)){
+                                                        Toast.makeText(LoginActivity.this, "Logged in.", Toast.LENGTH_SHORT).show();
 
-                                        if(!(u.getDisplayName()).equals(user)){
-                                            Toast.makeText(LoginActivity.this, "Invalid Username.", Toast.LENGTH_SHORT).show();
-                                        }
-                                        else{
-                                            Toast.makeText(LoginActivity.this, "Logged in.", Toast.LENGTH_SHORT).show();
+                                                        new Handler().postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            }
 
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
+                                                        },0);
+                                                    }
+
                                                 }
+                                                Toast.makeText(LoginActivity.this, "Invalid Username.", Toast.LENGTH_SHORT).show();
+                                            }
 
-                                            },0);
-                                        }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
 
+                                            }
+                                        });
                                     }
                                     // Sign in success, update UI with the signed-in user's information
                                 }
@@ -300,7 +327,6 @@ public class LoginActivity extends AppCompatActivity {
         if (user.isEmailVerified())
         {
             // user is verified, so you can finish this activity or send user to activity which you want.
-            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
             return true;
         }
         else

@@ -62,8 +62,8 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
                 z--;
             }
         }
-        holder.time.setText("Source: "+modelClassArrayList.get(position).getPublishedAt());
-        holder.author.setText("By: "+modelClassArrayList.get(position).getAuthor());
+        //holder.time.setText("Source: "+modelClassArrayList.get(position).getPublishedAt());
+        holder.author.setText("By: "+modelClassArrayList.get(position).getAuthor() + "          Source: " + modelClassArrayList.get(position).getPublishedAt());
         holder.heading.setText(modelClassArrayList.get(position).getTitle());
         //content
         // get content
@@ -87,7 +87,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView heading,content,author,category,time;
+        TextView heading,content,author,category;//time;
         CardView cardView;
         ImageView imageView;
 
@@ -96,7 +96,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
             heading = itemView.findViewById(R.id.NewsHeading);
             content = itemView.findViewById(R.id.NewsContent);
             author = itemView.findViewById(R.id.NewsAuthor);
-            time = itemView.findViewById(R.id.NewsPublished);
+            //time = itemView.findViewById(R.id.NewsPublished);
             imageView = itemView.findViewById(R.id.NewsImageView);
             cardView = itemView.findViewById(R.id.NewsCardView);
         }
