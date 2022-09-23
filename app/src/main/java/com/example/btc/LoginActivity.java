@@ -224,8 +224,6 @@ public class LoginActivity extends AppCompatActivity {
                                                 for(DataSnapshot ds: snapshot.getChildren()){
                                                     ModelClassAddUsers mU = ds.getValue(ModelClassAddUsers.class);
                                                     if(mU.getName().equals(user) && mU.getEmail().equals(email)){
-                                                        Toast.makeText(LoginActivity.this, "Logged in.", Toast.LENGTH_SHORT).show();
-
                                                         new Handler().postDelayed(new Runnable() {
                                                             @Override
                                                             public void run() {
@@ -238,7 +236,6 @@ public class LoginActivity extends AppCompatActivity {
                                                     }
 
                                                 }
-                                                Toast.makeText(LoginActivity.this, "Invalid Username.", Toast.LENGTH_SHORT).show();
                                             }
 
                                             @Override

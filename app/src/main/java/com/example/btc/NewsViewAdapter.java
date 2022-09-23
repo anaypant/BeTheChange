@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHolder>{
     Context context;
@@ -63,7 +64,15 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
             }
         }
         //holder.time.setText("Source: "+modelClassArrayList.get(position).getPublishedAt());
-        holder.author.setText("By: "+modelClassArrayList.get(position).getAuthor() + "          Source: " + modelClassArrayList.get(position).getPublishedAt());
+        if(Objects.equals(modelClassArrayList.get(position).getAuthor(), "null") || modelClassArrayList.get(position).getAuthor() == null){
+            holder.author.setText("By: Unknown");
+        }
+        else{
+            holder.author.setText("By: " + modelClassArrayList.get(position).getAuthor());
+        }
+        if(modelClassArrayList.get(position).getPublishedAt() != null){
+            holder.author.setText(holder.author.getText() + "        Source: " + modelClassArrayList.get(position).getPublishedAt());
+        }
         holder.heading.setText(modelClassArrayList.get(position).getTitle());
         //content
         // get content

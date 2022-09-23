@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -34,6 +38,7 @@ public class AddUsers extends Activity {
     AdapterAddUsers adapterAddUsers;
     List<ModelClassAddUsers> users;
     ImageButton backArrow;
+    EditText searchField;
     public AddUsers(){}
 
     @Override
@@ -46,7 +51,7 @@ public class AddUsers extends Activity {
         recView.setHasFixedSize(true);
         recView.setLayoutManager(new LinearLayoutManager(AddUsers.this));
         users = new ArrayList<>();
-        getAllUsers();
+        searchField = findViewById(R.id.UserSearchBar);
 
 
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +68,23 @@ public class AddUsers extends Activity {
                 },0);
             }
         });
+        searchField.setMaxHeight(30);
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getAllUsers();
+            }
+        });
     }
 
 
@@ -77,17 +99,16 @@ public class AddUsers extends Activity {
                     for(DataSnapshot ds: snapshot.getChildren()){
                         ModelClassAddUsers mU = ds.getValue(ModelClassAddUsers.class);
 
-                        System.out.println("\n\n\n\n\n\n\n");
-                        System.out.println("User id: " + mU.getUid());
-                        System.out.println("\n\n\n\n\n\n");
-
                         assert fUser != null;
-                        if (!mU.getUid().equals(fUser.getUid())) {
-                            users.add(mU);
+                        if(!searchField.getText().toString().trim().equals("")){
+                            if (!mU.getUid().equals(fUser.getUid()) && mU.getName().contains(searchField.getText().toString().trim())) {
+                                users.add(mU);
+                            }
+
+                            adapterAddUsers = new AdapterAddUsers(AddUsers.this,users);
+                            recView.setAdapter(adapterAddUsers);
                         }
 
-                        adapterAddUsers = new AdapterAddUsers(AddUsers.this,users);
-                        recView.setAdapter(adapterAddUsers);
                     }
                 }
 

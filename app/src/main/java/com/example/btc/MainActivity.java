@@ -27,6 +27,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Console;
 import java.io.Serializable;
@@ -36,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,16 +56,25 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView neatTitleText;
     String apiKey = "2a2429ecaaa4496680cf6d23b9e8dc0a";
+    //d9c1ce9082704e27bb1d4def64559eaa
+    //24apant
+    //2a2429ecaaa4496680cf6d23b9e8dc0a
+    //anaypant212
     String[] econKeys = new String[]{"+Economy", "+bitcoin", "+crypto", "+wall street"};
     String[] socKeys = new String[]{"+sexism","+LGBTQ","+abortion","+Abortion","+racism","+affirmative action","+Antifa","Affordable Care Act","+covid","+filibuster","+gerrymandering","+voter fraud","+immigration"};
-    String lastUpdated;
+    String[] environmentKeys = new String[]{"+climate", "+climate change", "+health", "+pollution", "+ems", "+global warming", "+green", "+epa", "+sustainability", "+health"};
+
+    List<String> lastUpdated = new ArrayList<>();
     public  ArrayList<ModelClass> trendingNewsList = new ArrayList<>();
     public ArrayList<ModelClass> economyNewsList = new ArrayList<>();
     public ArrayList<ModelClass> environmentNewsList = new ArrayList<>();
     public ArrayList<ModelClass> socialNewsList = new ArrayList<>();
-    private final int updateTime = 2; // how many hours we update
+    private final int updateTime = 6; // how many hours we update
     String[] neatTitleThingies = new String[]{"Howdy","What's poppin", "Hey","Look out","Heads up","Lookin' good"};
     private final int neatTitleTopLength = 10;
+    private final boolean DEBUG_GET_NEWS = false;
+    private final int numPages=32;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -87,6 +102,40 @@ public class MainActivity extends AppCompatActivity {
         profileButton = findViewById(R.id.UserProfile);
         neatTitleText = findViewById(R.id.NeatUserTitle);
         addFriends = findViewById(R.id.AddFriends);
+
+
+        // Update the recent articles every x hours here.
+        String date = String.valueOf(new Date().getTime());
+
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("apiUpdate");
+        date = String.valueOf((int) Long.parseLong(date)/3.6e6);
+        String finalDate = date;
+
+        ref.child("LastUpdated").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                if((Math.abs(Double.parseDouble((snapshot.getValue(String.class))) - Double.parseDouble((finalDate))) >= (updateTime)) || DEBUG_GET_NEWS){
+                    ref.child("LastUpdated").setValue(finalDate);
+
+                    // add new archive news
+                    System.out.println("\n");
+                    System.out.println("Finding news");
+                    System.out.println("\n");
+
+                    findNews();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
 
 
         //add some neat title
@@ -162,43 +211,94 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public Boolean checkForRequest(){
-        Date currentTime = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String time = df.format(currentTime);
-        String hours = time.substring(11, 12);
-        System.out.println("\n\n\n\n\n\n\n\n" + time + "\n\n\n\n\n\n\n\n\n");
-        if(lastUpdated == null){
-            lastUpdated = hours;
-            return true;
-        }
-        else{
-            int lastUpdatedInt = Integer.parseInt(lastUpdated);
-            int t = Integer.parseInt(hours);
-            if(lastUpdatedInt == 12 - updateTime + 1){
-                if(t >= updateTime - 1){
-                    lastUpdated  = String.valueOf(t);
-                    return true;
-                }
-            }
-            else if(lastUpdatedInt == 12){
-                if(t >= updateTime){
-                    lastUpdated  = String.valueOf(t);
-                    return true;
-                }
-            }
-            else if(t - 2 >= lastUpdatedInt){
-                lastUpdated  = String.valueOf(t);
-                return true;
 
-            }
-        }
-        return false;
-
-
-    }
     private int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }
+
+
+    private void findNews() {
+        //trending
+        apiUtils.getApiInterface().getNews("us",numPages,apiKey).enqueue(new Callback<TrendingNews>() {
+            @Override
+            public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
+                if(response.isSuccessful()){
+                    pagerAdapter.notifyDataSetChanged();
+                    //add to database
+                    DatabaseReference archivesReference = FirebaseDatabase.getInstance().getReference("articles");
+                    archivesReference.child("TrendingNews").setValue(response.body().getArticles());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TrendingNews> call, Throwable t) {
+
+            }
+        });
+
+        //economy
+        for(String key:econKeys){
+            apiUtils.getApiInterface().getKeywordNews(numPages,key, apiKey).enqueue(new Callback<TrendingNews>() {
+                @Override
+                public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
+                    if(response.isSuccessful()){
+                        pagerAdapter.notifyDataSetChanged();
+                        DatabaseReference archivesReference = FirebaseDatabase.getInstance().getReference("articles");
+                        archivesReference.child("EconomyNews").setValue(response.body().getArticles());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TrendingNews> call, Throwable t) {
+
+                }
+            });
+        }
+
+        //environment
+        for(String key:environmentKeys){
+            apiUtils.getApiInterface().getKeywordNews(numPages,key, apiKey).enqueue(new Callback<TrendingNews>() {
+                @Override
+                public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
+                    if(response.isSuccessful()){
+                        pagerAdapter.notifyDataSetChanged();
+                        DatabaseReference archivesReference = FirebaseDatabase.getInstance().getReference("articles");
+                        archivesReference.child("EnvironmentNews").setValue(response.body().getArticles());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TrendingNews> call, Throwable t) {
+
+                }
+            });
+        }
+
+
+
+
+        //social
+        for(String key:socKeys){
+            apiUtils.getApiInterface().getKeywordNews(100,key, apiKey).enqueue(new Callback<TrendingNews>() {
+                @Override
+                public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
+                    if(response.isSuccessful()){
+                        pagerAdapter.notifyDataSetChanged();
+                        DatabaseReference archivesReference = FirebaseDatabase.getInstance().getReference("articles");
+                        archivesReference.child("SocietyNews").setValue(response.body().getArticles());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TrendingNews> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
 
 }

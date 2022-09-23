@@ -11,6 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -42,22 +48,21 @@ public class SocietyFragment extends Fragment {
     }
 
     private void findNews() {
-        for(String key:keywords){
-            apiUtils.getApiInterface().getKeywordNews(100,key, api).enqueue(new Callback<TrendingNews>() {
-                @Override
-                public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
-                    if(response.isSuccessful()){
-                        modelClassArrayList.addAll(response.body().getArticles());
-                        adapter.notifyDataSetChanged();
-                    }
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("articles");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds: snapshot.child("SocietyNews").getChildren()){
+                    modelClassArrayList.add(ds.getValue(ModelClass.class));
                 }
+                adapter.notifyDataSetChanged();
+            }
 
-                @Override
-                public void onFailure(Call<TrendingNews> call, Throwable t) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-        }
+            }
+        });
 
     }
 }

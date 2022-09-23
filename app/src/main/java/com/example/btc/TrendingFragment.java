@@ -2,6 +2,7 @@ package com.example.btc;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -48,17 +55,18 @@ public class TrendingFragment extends Fragment {
     }
 
     private void findNews() {
-        apiUtils.getApiInterface().getNews(country,100,api).enqueue(new Callback<TrendingNews>() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("articles");
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onResponse(Call<TrendingNews> call, Response<TrendingNews> response) {
-                if(response.isSuccessful()){
-                    modelClassArrayList.addAll(response.body().getArticles());
-                    adapter.notifyDataSetChanged();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds: snapshot.child("TrendingNews").getChildren()){
+                    modelClassArrayList.add(ds.getValue(ModelClass.class));
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<TrendingNews> call, Throwable t) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });

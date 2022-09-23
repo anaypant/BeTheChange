@@ -3,6 +3,9 @@ package com.example.btc;
 public class ModelClass {
     private String author, title, description, url, urlToImage, publishedAt;
 
+    public ModelClass() {
+    }
+
     public ModelClass(String author, String title, String description, String url, String urlToImage, String publishedAt) {
         this.author = author;
         this.title = title;
