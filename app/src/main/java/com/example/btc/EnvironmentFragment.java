@@ -39,7 +39,7 @@ public class EnvironmentFragment extends Fragment {
         recyclerViewofEnvironment = v.findViewById(R.id.recycleviewofenvironment);
         modelClassArrayList = new ArrayList<>();
         recyclerViewofEnvironment.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsViewAdapter(getContext(), modelClassArrayList);
+        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "EnvironmentNews");
         recyclerViewofEnvironment.setAdapter(adapter);
 
         findNews();

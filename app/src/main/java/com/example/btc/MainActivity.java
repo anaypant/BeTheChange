@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -53,13 +54,17 @@ public class MainActivity extends AppCompatActivity {
     TabItem trending, economy, climate, social;
     PagerAdapter pagerAdapter, addFriendsAdapter;
     ImageButton profileButton, addFriends;
+    Button upVoteButton, downVoteButton;
     Toolbar toolbar;
     TextView neatTitleText;
     String apiKey = "2a2429ecaaa4496680cf6d23b9e8dc0a";
+
     //d9c1ce9082704e27bb1d4def64559eaa
     //24apant
     //2a2429ecaaa4496680cf6d23b9e8dc0a
     //anaypant212
+
+
     String[] econKeys = new String[]{"+Economy", "+bitcoin", "+crypto", "+wall street"};
     String[] socKeys = new String[]{"+sexism","+LGBTQ","+abortion","+Abortion","+racism","+affirmative action","+Antifa","Affordable Care Act","+covid","+filibuster","+gerrymandering","+voter fraud","+immigration"};
     String[] environmentKeys = new String[]{"+climate", "+climate change", "+health", "+pollution", "+ems", "+global warming", "+green", "+epa", "+sustainability", "+health"};
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<ModelClass> economyNewsList = new ArrayList<>();
     public ArrayList<ModelClass> environmentNewsList = new ArrayList<>();
     public ArrayList<ModelClass> socialNewsList = new ArrayList<>();
-    private final int updateTime = 6; // how many hours we update
+    private final int updateTime = 12; // how many hours we update
     String[] neatTitleThingies = new String[]{"Howdy","What's poppin", "Hey","Look out","Heads up","Lookin' good"};
     private final int neatTitleTopLength = 10;
     private final boolean DEBUG_GET_NEWS = false;
@@ -89,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         economy = findViewById(R.id.EconomyTab);
         climate = findViewById(R.id.EnvironmentTab);
         social = findViewById(R.id.SocietyTab);
+        upVoteButton = findViewById(R.id.UpVote);
+        downVoteButton = findViewById(R.id.DownVote);
 
 
         ViewPager viewPager = findViewById(R.id.fragment_container);
@@ -188,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(tab.getPosition());
                 if(tab.getPosition() == 0 || tab.getPosition() == 1 || tab.getPosition() == 2 || tab.getPosition() == 3){ // home
                     //System.out.println("yes");
+
                     pagerAdapter.notifyDataSetChanged();
                 }
 
@@ -216,7 +224,10 @@ public class MainActivity extends AppCompatActivity {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
-
+    private void setNewComments(String Field,String i){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("comments");
+        ref.child(Field).child(i).setValue("");
+    }
     private void findNews() {
         //trending
         apiUtils.getApiInterface().getNews("us",numPages,apiKey).enqueue(new Callback<TrendingNews>() {
@@ -226,7 +237,15 @@ public class MainActivity extends AppCompatActivity {
                     pagerAdapter.notifyDataSetChanged();
                     //add to database
                     DatabaseReference archivesReference = FirebaseDatabase.getInstance().getReference("articles");
-                    archivesReference.child("TrendingNews").setValue(response.body().getArticles());
+                    ArrayList<ModelClass> temporary = response.body().getArticles();
+                    for(int x = 0; x < temporary.size();x++){
+                        ModelClass z = temporary.get(x);
+                        z.setDownVotes("0");
+                        z.setUpVotes("0");
+                        setNewComments("TrendingNews",String.valueOf(x));
+
+                    }
+                    archivesReference.child("TrendingNews").setValue(temporary);
                 }
             }
 
@@ -244,8 +263,14 @@ public class MainActivity extends AppCompatActivity {
                     if(response.isSuccessful()){
                         pagerAdapter.notifyDataSetChanged();
                         DatabaseReference archivesReference = FirebaseDatabase.getInstance().getReference("articles");
-                        archivesReference.child("EconomyNews").setValue(response.body().getArticles());
-
+                        ArrayList<ModelClass> temporary = response.body().getArticles();
+                        for(int x = 0; x < temporary.size();x++){
+                            ModelClass z = temporary.get(x);
+                            z.setDownVotes("0");
+                            z.setUpVotes("0");
+                            setNewComments("EconomyNews",String.valueOf(x));
+                        }
+                        archivesReference.child("EconomyNews").setValue(temporary);
                     }
                 }
 
@@ -264,7 +289,15 @@ public class MainActivity extends AppCompatActivity {
                     if(response.isSuccessful()){
                         pagerAdapter.notifyDataSetChanged();
                         DatabaseReference archivesReference = FirebaseDatabase.getInstance().getReference("articles");
-                        archivesReference.child("EnvironmentNews").setValue(response.body().getArticles());
+                        ArrayList<ModelClass> temporary = response.body().getArticles();
+                        for(int x = 0; x < temporary.size();x++){
+                            ModelClass z = temporary.get(x);
+                            z.setDownVotes("0");
+                            z.setUpVotes("0");
+                            setNewComments("EnvironmentNews",String.valueOf(x));
+                        }
+                        archivesReference.child("EnvironmentNews").setValue(temporary);
+
 
                     }
                 }
@@ -287,7 +320,14 @@ public class MainActivity extends AppCompatActivity {
                     if(response.isSuccessful()){
                         pagerAdapter.notifyDataSetChanged();
                         DatabaseReference archivesReference = FirebaseDatabase.getInstance().getReference("articles");
-                        archivesReference.child("SocietyNews").setValue(response.body().getArticles());
+                        ArrayList<ModelClass> temporary = response.body().getArticles();
+                        for(int x = 0; x < temporary.size();x++){
+                            ModelClass z = temporary.get(x);
+                            z.setDownVotes("0");
+                            z.setUpVotes("0");
+                            setNewComments("SocietyNews",String.valueOf(x));
+                        }
+                        archivesReference.child("SocietyNews").setValue(temporary);
 
                     }
                 }

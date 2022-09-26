@@ -41,7 +41,7 @@ public class SocietyFragment extends Fragment {
         recyclerViewofSociety = v.findViewById(R.id.recycleviewofsociety);
         modelClassArrayList = new ArrayList<>();
         recyclerViewofSociety.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsViewAdapter(getContext(), modelClassArrayList);
+        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "SocietyNews");
         recyclerViewofSociety.setAdapter(adapter);
         findNews();
         return v;

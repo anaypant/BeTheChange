@@ -74,23 +74,23 @@
                     android:layout_width="90dp"
                     android:layout_height="140dp">
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/UpVote"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="8dp"
                         android:backgroundTint="#86BC99"
-                        android:src="@drawable/ic_baseline_arrow_upward_24" />
+                        android:text="0" />
 
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/DownVote"
                         android:layout_width="90dp"
                         android:layout_height="40dp"
                         android:layout_below="@id/UpVote"
                         android:layout_marginTop="0dp"
                         android:backgroundTint="#FF8D8D"
-                        android:src="@drawable/ic_baseline_arrow_downward_24" />
+                        android:text="0" />
 
                     <ImageButton
                         android:id="@+id/CommentButton"

@@ -39,7 +39,7 @@ public class EconomyFragment extends Fragment {
         recyclerViewofEconomy = v.findViewById(R.id.recycleviewofeconomy);
         modelClassArrayList = new ArrayList<>();
         recyclerViewofEconomy.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsViewAdapter(getContext(), modelClassArrayList);
+        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "EconomyNews");
         recyclerViewofEconomy.setAdapter(adapter);
 
         findNews();

@@ -2,7 +2,34 @@ package com.example.btc;
 
 public class ModelClass {
     private String author, title, description, url, urlToImage, publishedAt;
+    private String upVotes, downVotes;
 
+    public ModelClass(String author, String title, String description, String url, String urlToImage, String publishedAt, String upVotes, String downVotes) {
+        this.author = author;
+        this.title = title;
+        this.description = description;
+        this.url = url;
+        this.urlToImage = urlToImage;
+        this.publishedAt = publishedAt;
+        this.upVotes = upVotes;
+        this.downVotes = downVotes;
+    }
+
+    public String getUpVotes() {
+        return upVotes;
+    }
+
+    public void setUpVotes(String upVotes) {
+        this.upVotes = upVotes;
+    }
+
+    public String getDownVotes() {
+        return downVotes;
+    }
+
+    public void setDownVotes(String downVotes) {
+        this.downVotes = downVotes;
+    }
     public ModelClass() {
     }
 
@@ -14,6 +41,7 @@ public class ModelClass {
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
     }
+
 
     public String getAuthor() {
         return author;

@@ -48,7 +48,7 @@ public class TrendingFragment extends Fragment {
         recyclerViewoftrending = v.findViewById(R.id.recycleviewoftrending);
         modelClassArrayList = new ArrayList<>();
         recyclerViewoftrending.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsViewAdapter(getContext(), modelClassArrayList);
+        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "TrendingNews");
         recyclerViewoftrending.setAdapter(adapter);
         findNews();
         return v;
