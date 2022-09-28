@@ -3,11 +3,14 @@ package com.example.btc;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,16 +31,18 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHolder>{
-    Context context;
+    public static Context context;
     ArrayList<ModelClass> modelClassArrayList;
-    private ViewHolder holder;
-    private int position;
     private String tabName;
+    public static VoteInterface vI;
+    int numUp = 0, numDown = 0;
 
-    public NewsViewAdapter(Context context, ArrayList<ModelClass> modelClassArrayList, String tabName) {
+
+    public NewsViewAdapter(Context context, ArrayList<ModelClass> modelClassArrayList, String tabName, VoteInterface vI) {
         this.context = context;
         this.modelClassArrayList = modelClassArrayList;
         this.tabName =tabName;
+        this.vI = vI;
     }
 
     @NonNull
@@ -51,8 +56,8 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        this.holder = holder;
-        this.position = position;
+
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,28 +87,39 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
         }
         holder.heading.setText(modelClassArrayList.get(position).getTitle());
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(tabName);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("votes").child(tabName).child(String.valueOf(position));
+        numUp = 0;
+        numDown = 0;
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot ds: snapshot.getChildren()){
-                    if(ds.getKey() == String.valueOf(position)){
-                        modelClassArrayList.get(position).setDownVotes(ds.getValue(ModelClass.class).getDownVotes());
-                        modelClassArrayList.get(position).setUpVotes(ds.getValue(ModelClass.class).getUpVotes());
+                    if(Integer.parseInt(Objects.requireNonNull(ds.getValue(String.class))) == 1){
+                        numUp += 1;
+                    }
+                    else{
+                        numDown += 1;
                     }
                 }
-                holder.upVoteButton.setText(modelClassArrayList.get(position).getUpVotes());
-                holder.downVoteButton.setText(modelClassArrayList.get(position).getDownVotes());
+                holder.downVoteCt.setText(String.valueOf(numDown));//fix here :0
+                holder.upvoteCt.setText(String.valueOf(numUp));
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+
+
+
         //@TODO aiclub
         holder.content.setText(modelClassArrayList.get(position).getDescription());
         if(holder.imageView != null){
             Glide.with(context).load(modelClassArrayList.get(position).getUrlToImage()).into(holder.imageView);
         }
+        
     }
 
     @Override
@@ -112,10 +128,11 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView heading,content,author,category;//time;
+        TextView heading,content,author;
         CardView cardView;
         ImageView imageView;
-        Button upVoteButton, downVoteButton;
+        ImageButton upVoteButton, downVoteButton;
+        TextView upvoteCt, downVoteCt;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             heading = itemView.findViewById(R.id.NewsHeading);
@@ -125,6 +142,36 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
             cardView = itemView.findViewById(R.id.NewsCardView);
             upVoteButton = itemView.findViewById(R.id.UpVote);
             downVoteButton = itemView.findViewById(R.id.DownVote);
+            upvoteCt = itemView.findViewById(R.id.upVoteCounter);
+            downVoteCt = itemView.findViewById(R.id.downVoteCounter);
+            upVoteButton.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("UseCompatLoadingForColorStateLists")
+                @Override
+                public void onClick(View view) {
+                    if(upVoteButton.getBackgroundTintList() != context.getResources().getColorStateList(R.color.up_vote_color)){
+                        vI.upVoteOnClick(view, getAdapterPosition());
+                    }
+                    downVoteButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.dead_vote));
+                    upVoteButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.up_vote_color));
+
+                }
+            });
+            downVoteButton.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("UseCompatLoadingForColorStateLists")
+                @Override
+                public void onClick(View view) {
+                    if(downVoteButton.getBackgroundTintList() != context.getResources().getColorStateList(R.color.down_vote_color)){
+                        vI.downVoteOnClick(view, getAdapterPosition());
+                    }
+                    downVoteButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.down_vote_color));
+                    upVoteButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.dead_vote));
+
+                }
+            });
+
+
+
+
         }
     }
 }

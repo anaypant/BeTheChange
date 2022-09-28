@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     TabItem trending, economy, climate, social;
     PagerAdapter pagerAdapter, addFriendsAdapter;
     ImageButton profileButton, addFriends;
-    Button upVoteButton, downVoteButton;
+    ImageButton upVoteButton, downVoteButton;
     Toolbar toolbar;
     TextView neatTitleText;
     String apiKey = "2a2429ecaaa4496680cf6d23b9e8dc0a";
@@ -94,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
         economy = findViewById(R.id.EconomyTab);
         climate = findViewById(R.id.EnvironmentTab);
         social = findViewById(R.id.SocietyTab);
-        upVoteButton = findViewById(R.id.UpVote);
-        downVoteButton = findViewById(R.id.DownVote);
 
 
         ViewPager viewPager = findViewById(R.id.fragment_container);
@@ -194,8 +192,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
                 if(tab.getPosition() == 0 || tab.getPosition() == 1 || tab.getPosition() == 2 || tab.getPosition() == 3){ // home
-                    //System.out.println("yes");
-
                     pagerAdapter.notifyDataSetChanged();
                 }
 
@@ -206,12 +202,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                pagerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                pagerAdapter.notifyDataSetChanged();
             }
         });
 
