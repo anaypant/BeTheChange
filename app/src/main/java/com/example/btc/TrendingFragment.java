@@ -1,6 +1,7 @@
 package com.example.btc;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -37,6 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
@@ -44,11 +47,10 @@ import java.util.Objects;
 
 public class TrendingFragment extends Fragment {
     String api="2a2429ecaaa4496680cf6d23b9e8dc0a";
-    ArrayList<ModelClass> modelClassArrayList;
+    ArrayList<ModelClass> modelClassArrayList, oldModelClassArrayList;
     NewsViewAdapter adapter;
     String country = "us";
     private RecyclerView recyclerViewoftrending;
-
 
     @Nullable
     @Override
@@ -58,27 +60,25 @@ public class TrendingFragment extends Fragment {
 
         recyclerViewoftrending = v.findViewById(R.id.recycleviewoftrending);
         modelClassArrayList = new ArrayList<>();
+        oldModelClassArrayList = new ArrayList<>();
+
         recyclerViewoftrending.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "TrendingNews", new VoteInterface() {
+        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "TrendingNews", new AdapterSelecterListener() {
             @Override
-            public void upVoteOnClick(View w, int position) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("votes").child("TrendingNews").child(String.valueOf(position));
-                HashMap<Object, String> h = new HashMap<>();
-                h.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), "1");
-                ref.setValue(h);
+            public void onUpvoteClick(ModelClass c, int position, String tabName) {
+                VotingUtils.updateUpVotes(position, tabName);
                 adapter.notifyDataSetChanged();
+
             }
 
             @Override
-            public void downVoteOnClick(View w, int position) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("votes").child("TrendingNews").child(String.valueOf(position));
-                HashMap<Object, String> h = new HashMap<>();
-                h.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), "-1");
-                ref.setValue(h);
+            public void onDownVoteClick(ModelClass c, int position, String tabName) {
+                VotingUtils.updateDownVotes(position, tabName);
                 adapter.notifyDataSetChanged();
 
             }
         });
+        adapter.setTabName("TrendingNews");
         recyclerViewoftrending.setAdapter(adapter);
         findNews();
 

@@ -1,5 +1,6 @@
 package com.example.btc;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -33,41 +35,33 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EconomyFragment extends Fragment {
-    String api="2a2429ecaaa4496680cf6d23b9e8dc0a";
     ArrayList<ModelClass> modelClassArrayList;
     NewsViewAdapter adapter;
-    String country = "us";
-    String[] keywords = new String[]{"+Economy", "+bitcoin", "+crypto", "+wall street"};
-    private RecyclerView recyclerViewofEconomy;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.econ_layout, null);
-        recyclerViewofEconomy = v.findViewById(R.id.recycleviewofeconomy);
+        RecyclerView recyclerViewofEconomy = v.findViewById(R.id.recycleviewofeconomy);
         modelClassArrayList = new ArrayList<>();
         recyclerViewofEconomy.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "EconomyNews", new VoteInterface() {
+        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "EconomyNews", new AdapterSelecterListener() {
             @Override
-            public void upVoteOnClick(View w, int position) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("votes").child("EconomyNews").child(String.valueOf(position));
-                HashMap<Object, String> h = new HashMap<>();
-                h.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), "1");
-                ref.setValue(h);
+            public void onUpvoteClick(ModelClass c, int position, String tabName) {
+                VotingUtils.updateUpVotes(position, tabName);
                 adapter.notifyDataSetChanged();
+
             }
 
             @Override
-            public void downVoteOnClick(View w, int position) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("votes").child("EconomyNews").child(String.valueOf(position));
-                HashMap<Object, String> h = new HashMap<>();
-                h.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), "-1");
-                ref.setValue(h);
+            public void onDownVoteClick(ModelClass c, int position, String tabName) {
+                VotingUtils.updateDownVotes(position, tabName);
                 adapter.notifyDataSetChanged();
 
             }
         });
+        adapter.setTabName("EconomyNews");
+
         recyclerViewofEconomy.setAdapter(adapter);
 
         findNews();

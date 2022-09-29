@@ -6,26 +6,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,21 +25,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Console;
-import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterSelecterListener{
 
     TabLayout tabLayout;
     TabItem trending, economy, climate, social;
@@ -57,12 +42,15 @@ public class MainActivity extends AppCompatActivity {
     ImageButton upVoteButton, downVoteButton;
     Toolbar toolbar;
     TextView neatTitleText;
-    String apiKey = "2a2429ecaaa4496680cf6d23b9e8dc0a";
+    String apiKey = "";
 
     //d9c1ce9082704e27bb1d4def64559eaa
     //24apant
     //2a2429ecaaa4496680cf6d23b9e8dc0a
     //anaypant212
+    //
+    //Throwaway for debug
+    //62243ef8f86c46b8bb8e62c3b87088c6
 
 
     String[] econKeys = new String[]{"+Economy", "+bitcoin", "+crypto", "+wall street"};
@@ -86,54 +74,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         trending = findViewById(R.id.TrendingTab);
         economy = findViewById(R.id.EconomyTab);
         climate = findViewById(R.id.EnvironmentTab);
         social = findViewById(R.id.SocietyTab);
-
-
         ViewPager viewPager = findViewById(R.id.fragment_container);
         ViewPager addFriendsPager = findViewById(R.id.AddUserContainer);
         tabLayout = findViewById(R.id.NewsTabLayout);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(),4);
         addFriendsAdapter = new PagerAdapter(getSupportFragmentManager(), 1);
-
         addFriendsPager.setAdapter(addFriendsAdapter);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
         profileButton = findViewById(R.id.UserProfile);
         neatTitleText = findViewById(R.id.NeatUserTitle);
         addFriends = findViewById(R.id.AddFriends);
-
-
         // Update the recent articles every x hours here.
         String date = String.valueOf(new Date().getTime());
-
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("apiUpdate");
         date = String.valueOf((int) Long.parseLong(date)/3.6e6);
         String finalDate = date;
-
         ref.child("LastUpdated").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
                 if((Math.abs(Double.parseDouble((snapshot.getValue(String.class))) - Double.parseDouble((finalDate))) >= (updateTime)) || DEBUG_GET_NEWS){
                     ref.child("LastUpdated").setValue(finalDate);
-
-                    // add new archive news
-                    System.out.println("\n");
-                    System.out.println("Finding news");
-                    System.out.println("\n");
-
                     findNews();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -172,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // go to settings page
-                // we want to sign out
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -190,24 +158,22 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
                 if(tab.getPosition() == 0 || tab.getPosition() == 1 || tab.getPosition() == 2 || tab.getPosition() == 3){ // home
+                    viewPager.setCurrentItem(tab.getPosition());
+                    pagerAdapter.getItem(tab.getPosition());
                     pagerAdapter.notifyDataSetChanged();
+
+
                 }
-
-
-
 
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                pagerAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                pagerAdapter.notifyDataSetChanged();
             }
         });
 
@@ -236,12 +202,16 @@ public class MainActivity extends AppCompatActivity {
                     ArrayList<ModelClass> temporary = response.body().getArticles();
                     for(int x = 0; x < temporary.size();x++){
                         ModelClass z = temporary.get(x);
-                        z.setDownVotes("0");
-                        z.setUpVotes("0");
+                        z.setUpvotect("0");
+                        z.setDownvotect("0");
+
                         setNewComments("TrendingNews",String.valueOf(x));
 
+
                     }
-                    archivesReference.child("TrendingNews").setValue(temporary);
+                    archivesReference = archivesReference.child("TrendingNews");
+                    archivesReference.setValue(temporary);
+
                 }
             }
 
@@ -262,8 +232,10 @@ public class MainActivity extends AppCompatActivity {
                         ArrayList<ModelClass> temporary = response.body().getArticles();
                         for(int x = 0; x < temporary.size();x++){
                             ModelClass z = temporary.get(x);
-                            z.setDownVotes("0");
-                            z.setUpVotes("0");
+                            z.setUpvotect("0");
+                            z.setDownvotect("0");
+
+
                             setNewComments("EconomyNews",String.valueOf(x));
                         }
                         archivesReference.child("EconomyNews").setValue(temporary);
@@ -288,8 +260,10 @@ public class MainActivity extends AppCompatActivity {
                         ArrayList<ModelClass> temporary = response.body().getArticles();
                         for(int x = 0; x < temporary.size();x++){
                             ModelClass z = temporary.get(x);
-                            z.setDownVotes("0");
-                            z.setUpVotes("0");
+                            z.setUpvotect("0");
+                            z.setDownvotect("0");
+
+
                             setNewComments("EnvironmentNews",String.valueOf(x));
                         }
                         archivesReference.child("EnvironmentNews").setValue(temporary);
@@ -319,8 +293,8 @@ public class MainActivity extends AppCompatActivity {
                         ArrayList<ModelClass> temporary = response.body().getArticles();
                         for(int x = 0; x < temporary.size();x++){
                             ModelClass z = temporary.get(x);
-                            z.setDownVotes("0");
-                            z.setUpVotes("0");
+                            z.setUpvotect("0");
+                            z.setDownvotect("0");
                             setNewComments("SocietyNews",String.valueOf(x));
                         }
                         archivesReference.child("SocietyNews").setValue(temporary);
@@ -337,4 +311,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onUpvoteClick(ModelClass c, int position, String tabName) {
+        VotingUtils.updateUpVotes(position, tabName);
+        FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position)).child("upvotect").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+
+                c.setUpvotect(task.getResult().getValue(String.class));
+            }
+        });
+        FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position)).child("downvotect").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                c.setDownvotect(task.getResult().getValue(String.class));
+            }
+        });
+        pagerAdapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onDownVoteClick(ModelClass c, int position, String tabName) {
+        VotingUtils.updateDownVotes(position, tabName);
+        FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position)).child("downvotect").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                System.out.println(task.getResult().getValue(String.class));
+                c.setDownvotect(task.getResult().getValue(String.class));
+            }
+        });
+        FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position)).child("upvotect").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                System.out.println(task.getResult().getValue(String.class));
+
+                c.setUpvotect(task.getResult().getValue(String.class));
+            }
+        });
+
+        pagerAdapter.notifyDataSetChanged();
+    }
 }

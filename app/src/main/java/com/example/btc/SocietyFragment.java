@@ -1,5 +1,6 @@
 package com.example.btc;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -36,10 +38,7 @@ public class SocietyFragment extends Fragment {
     String api="2a2429ecaaa4496680cf6d23b9e8dc0a";
     ArrayList<ModelClass> modelClassArrayList;
     NewsViewAdapter adapter;
-    String country = "us";
-    String category = "society";
     private RecyclerView recyclerViewofSociety;
-    private final String[] keywords = new String[]{"+sexism","+LGBTQ","+abortion","+Abortion","+racism"};
 
     @Nullable
     @Override
@@ -49,26 +48,27 @@ public class SocietyFragment extends Fragment {
         recyclerViewofSociety = v.findViewById(R.id.recycleviewofsociety);
         modelClassArrayList = new ArrayList<>();
         recyclerViewofSociety.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "SocietyNews", new VoteInterface() {
+        adapter = new NewsViewAdapter(getContext(), modelClassArrayList, "SocietyNews", new AdapterSelecterListener() {
             @Override
-            public void upVoteOnClick(View w, int position) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("votes").child("SocietyNews").child(String.valueOf(position));
-                HashMap<Object, String> h = new HashMap<>();
-                h.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), "1");
-                ref.setValue(h);
+            public void onUpvoteClick(ModelClass c, int position, String tabName) {
+                adapter.setTabName("SocietyNews");
+
+                VotingUtils.updateUpVotes(position, tabName);
                 adapter.notifyDataSetChanged();
+
             }
 
             @Override
-            public void downVoteOnClick(View w, int position) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("votes").child("SocietyNews").child(String.valueOf(position));
-                HashMap<Object, String> h = new HashMap<>();
-                h.put(FirebaseAuth.getInstance().getCurrentUser().getUid(), "-1");
-                ref.setValue(h);
+            public void onDownVoteClick(ModelClass c, int position, String tabName) {
+                adapter.setTabName("SocietyNews");
+
+                VotingUtils.updateDownVotes(position, tabName);
                 adapter.notifyDataSetChanged();
 
             }
         });
+        adapter.setTabName("SocietyNews");
+
         recyclerViewofSociety.setAdapter(adapter);
         findNews();
         return v;

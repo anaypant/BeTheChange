@@ -1,47 +1,50 @@
 package com.example.btc;
 
+import java.util.HashMap;
+
 public class ModelClass {
-    private String author, title, description, url, urlToImage, publishedAt;
-    private String upVotes, downVotes;
+    private String author, title, description, url, urlToImage, publishedAt, upvotect, downvotect;
 
-    public ModelClass(String author, String title, String description, String url, String urlToImage, String publishedAt, String upVotes, String downVotes) {
-        this.author = author;
-        this.title = title;
-        this.description = description;
-        this.url = url;
-        this.urlToImage = urlToImage;
-        this.publishedAt = publishedAt;
-        this.upVotes = upVotes;
-        this.downVotes = downVotes;
-    }
-
-    public String getUpVotes() {
-        return upVotes;
-    }
-
-    public void setUpVotes(String upVotes) {
-        this.upVotes = upVotes;
-    }
-
-    public String getDownVotes() {
-        return downVotes;
-    }
-
-    public void setDownVotes(String downVotes) {
-        this.downVotes = downVotes;
-    }
     public ModelClass() {
     }
 
-    public ModelClass(String author, String title, String description, String url, String urlToImage, String publishedAt) {
+    private HashMap<String, Object> votes;
+
+    public HashMap<String, Object> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(HashMap<String, Object> votes) {
+        this.votes = votes;
+    }
+
+    public ModelClass(String author, String title, String description, String url, String urlToImage, String publishedAt, String upvotect, String downvotect, HashMap<String, Object> votes) {
         this.author = author;
         this.title = title;
         this.description = description;
         this.url = url;
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
+        this.upvotect = upvotect;
+        this.downvotect = downvotect;
+        this.votes = votes;
     }
 
+    public String getUpvotect() {
+        return upvotect;
+    }
+
+    public void setUpvotect(String upvotect) {
+        this.upvotect = upvotect;
+    }
+
+    public String getDownvotect() {
+        return downvotect;
+    }
+
+    public void setDownvotect(String downvotect) {
+        this.downvotect = downvotect;
+    }
 
     public String getAuthor() {
         return author;
@@ -89,5 +92,9 @@ public class ModelClass {
 
     public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
+    }
+
+    public int compareTo(ModelClass m1){
+        return Integer.parseInt(m1.upvotect)-Integer.parseInt(this.upvotect);
     }
 }
