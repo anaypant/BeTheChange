@@ -55,7 +55,6 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
         // check if current user liked post
         //if so, update color buttons
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position)).child("votes");
-        System.out.println(modelClassArrayList.get(0).getTitle());
 
         holder.upVoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,10 +69,12 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
                             }
                         }
                         if(!found){
-                            System.out.println("yeah boiiiii");
                             selecterListener.onUpvoteClick(modelClassArrayList.get(position), position, tabName);
                             holder.upvoteCt.setText(modelClassArrayList.get(position).getUpvotect());
                             holder.downVoteCt.setText(modelClassArrayList.get(position).getDownvotect());
+                        }
+                        else{
+                            return;
                         }
                     }
 
@@ -98,10 +99,12 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
                             }
                         }
                         if(!found){
-                            System.out.println("not found");
                             selecterListener.onDownVoteClick(modelClassArrayList.get(position), position, tabName);
                             holder.upvoteCt.setText(modelClassArrayList.get(position).getUpvotect());
                             holder.downVoteCt.setText(modelClassArrayList.get(position).getDownvotect());
+                        }
+                        else{
+                            return;
                         }
                     }
 
@@ -111,6 +114,16 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
                 });
             }
         });
+
+        holder.commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selecterListener.onCommentClick(modelClassArrayList.get(position), position, tabName);
+            }
+        });
+
+
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,7 +175,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
         TextView heading,content,author;
         CardView cardView;
         ImageView imageView;
-        ImageButton upVoteButton, downVoteButton;
+        ImageButton upVoteButton, downVoteButton, commentButton;
         TextView upvoteCt, downVoteCt;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -175,6 +188,7 @@ public class NewsViewAdapter extends RecyclerView.Adapter<NewsViewAdapter.ViewHo
             downVoteButton = itemView.findViewById(R.id.DownVote);
             upvoteCt = itemView.findViewById(R.id.upVoteCounter);
             downVoteCt = itemView.findViewById(R.id.downVoteCounter);
+            commentButton = itemView.findViewById(R.id.CommentButton);
 
 
 

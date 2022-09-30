@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements AdapterSelecterLi
     ImageButton upVoteButton, downVoteButton;
     Toolbar toolbar;
     TextView neatTitleText;
-    String apiKey = "";
+    String apiKey = "d9c1ce9082704e27bb1d4def64559eaa";
 
     //d9c1ce9082704e27bb1d4def64559eaa
     //24apant
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements AdapterSelecterLi
         profileButton = findViewById(R.id.UserProfile);
         neatTitleText = findViewById(R.id.NeatUserTitle);
         addFriends = findViewById(R.id.AddFriends);
-        // Update the recent articles every x hours here.
+
         String date = String.valueOf(new Date().getTime());
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("apiUpdate");
         date = String.valueOf((int) Long.parseLong(date)/3.6e6);
@@ -187,8 +188,9 @@ public class MainActivity extends AppCompatActivity implements AdapterSelecterLi
     }
 
     private void setNewComments(String Field,String i){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("comments");
-        ref.child(Field).child(i).setValue("");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        HashMap<String, Object> h= new HashMap<>();
+        ref.child("articles").child(Field).child(i).child("comments").setValue(h);
     }
     private void findNews() {
         //trending
@@ -337,19 +339,21 @@ public class MainActivity extends AppCompatActivity implements AdapterSelecterLi
         FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position)).child("downvotect").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                System.out.println(task.getResult().getValue(String.class));
                 c.setDownvotect(task.getResult().getValue(String.class));
             }
         });
         FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position)).child("upvotect").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                System.out.println(task.getResult().getValue(String.class));
-
                 c.setUpvotect(task.getResult().getValue(String.class));
             }
         });
-
         pagerAdapter.notifyDataSetChanged();
+        return;
+    }
+
+    @Override
+    public void onCommentClick(ModelClass c, int position, String tabName) {
+        VotingUtils.goToComments(getBaseContext(), c, position, tabName);
     }
 }

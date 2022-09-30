@@ -8,7 +8,7 @@ public class ModelClass {
     public ModelClass() {
     }
 
-    private HashMap<String, Object> votes;
+    private HashMap<String, Object> votes, comments;
 
     public HashMap<String, Object> getVotes() {
         return votes;
@@ -18,7 +18,15 @@ public class ModelClass {
         this.votes = votes;
     }
 
-    public ModelClass(String author, String title, String description, String url, String urlToImage, String publishedAt, String upvotect, String downvotect, HashMap<String, Object> votes) {
+    public HashMap<String, Object> getComments() {
+        return comments;
+    }
+
+    public void setComments(HashMap<String, Object> comments) {
+        this.comments = comments;
+    }
+
+    public ModelClass(String author, String title, String description, String url, String urlToImage, String publishedAt, String upvotect, String downvotect, HashMap<String, Object> votes, HashMap<String, Object> comments) {
         this.author = author;
         this.title = title;
         this.description = description;
@@ -28,6 +36,7 @@ public class ModelClass {
         this.upvotect = upvotect;
         this.downvotect = downvotect;
         this.votes = votes;
+        this.comments = comments;
     }
 
     public String getUpvotect() {
