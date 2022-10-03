@@ -17,3 +17,6 @@
   * Should be able to see category I am in , once I finish a comment. Right now I navigate to first activity 
   * See comment count
   * Ability to sign out
+  
+### Website
+Thankyou to https://baskaufs.github.io/example_website/
