@@ -1,0 +1,7 @@
+featured:
+- {name: 'Baskauf, SJ and JK Baskauf. 2021. Using the W3C Generating RDF from Tabular Data on the Web Recommendation to manage small Wikidata datasets. Semantic Web Journal (in press).', url: '/publications/swj2810.pdf'}
+- {name: 'Groom, Q, P Desmet, L Reyserhove, T Adriaens, D Oldoni, S Vanderhoeven, SJ Baskauf, A Chapman, M McGeoch, R Walls, J Wieczorek, JRU Wilson, PFF Zermoglio, A Simpson. 2020. Degree of Establishment Controlled Vocabulary List of Terms. Biodiversity Information Standards (TDWG)', url: 'http://rs.tdwg.org/dwc/doc/doe/'}
+
+index:
+- {name: 'Baskauf, SJ and JK Baskauf. 2021. Using the W3C Generating RDF from Tabular Data on the Web Recommendation to manage small Wikidata datasets. Semantic Web Journal (in press).', url: '/publications/swj2810.pdf'}
+- {name: 'Groom, Q, P Desmet, L Reyserhove, T Adriaens, D Oldoni, S Vanderhoeven, SJ Baskauf, A Chapman, M McGeoch, R Walls, J Wieczorek, JRU Wilson, PFF Zermoglio, A Simpson. 2020. Degree of Establishment Controlled Vocabulary List of Terms. Biodiversity Information Standards (TDWG)', url: 'http://rs.tdwg.org/dwc/doc/doe/'}
