@@ -1,22 +1,15 @@
-- Adventurer
-- Scholar
-- Ecologist
-- Data nerd
-
-<small>To see the GitHub repository that generates this site using Jekyll, go to [this repo](https://github.com/baskaufs/example_website/).</small>
-
 ## What "Change" is needed?
 
 #### Global news:
 - In 2020 the pandemic hit the world and changed the way we live. [https://www.nytimes.com/news-event/coronavirus ](https://www.nytimes.com/news-event/coronavirus)
-- In 2022 climate change and heat waves brought devastation to the planet.[https://www.cnn.com/specials/world/cnn-climate ]
-- In 2022 Russia invaved Ukraine unleashing months long war and violence. [https://www.bbc.com/news/world-60525350 ]
-- In June 2022 USA Supreme court overturned Roe vs Wade raising questions about womens rights [https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights]
+- In 2022 climate change and heat waves brought devastation to the planet.[https://www.cnn.com/specials/world/cnn-climate ](https://www.cnn.com/specials/world/cnn-climate)
+- In 2022 Russia invaved Ukraine unleashing months long war and violence. [https://www.bbc.com/news/world-60525350 ](https://www.bbc.com/news/world-60525350)
+- In June 2022 USA Supreme court overturned Roe vs Wade raising questions about womens rights [https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights](https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights)
 …..
 
 #### Local news:
-- California Prop 28 - should I vote? [https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php ]
-- Student Loan is forgiven but taxes [https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html]
+- California Prop 28 - should I vote? [https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php ](https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php )
+- Student Loan is forgiven but taxes [https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html](https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html)
 
 #### Problem :
 - There is an overwhelming amount of information out there for people to consume. There are umpteen media channels, news companies e.g. CNN, BBC etc, Social media platforms  e.g. Youtube, Twitter, Blogging sites. 
