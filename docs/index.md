@@ -2,10 +2,10 @@
 
 | Global news  | Local News  |
 | -----------  | ----------- |
-|2020 Pandemic hit the world and changed the way we live. [NYTimes article](https://www.nytimes.com/news-event/coronavirus)    |California Prop 28 - should I vote? [SF Chronicle article ](https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php)     |
-|2022 Climate change and heat waves brought devastation to the planet.[CNN article](https://www.cnn.com/specials/world/cnn-climate)  |California gas rebates [CalMatters article ](https://calmatters.org/newsletters/whatmatters/2022/09/california-gas-tax-rebate/)      |
-|2022 Russia invaved Ukraine unleashing months long war and violence. [BBC article](https://www.bbc.com/news/world-60525350)|Student Loan is forgiven but taxes in CA [CNBC article](https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html) |
-|2022 USA Supreme court overturned Roe vs Wade raising questions about womens rights [HRW article](https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights)|Student attendance awareness program [Patch article](https://patch.com/california/pleasanthill/contra-costa-co-september-marks-school-attendance-awareness)|
+|Pandemic changed the way we live. [NYTimes article](https://www.nytimes.com/news-event/coronavirus)    |California Prop 28 - should I vote? [SF Chronicle article ](https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php)     |
+|Climate change bring devastation to the planet.[CNN article](https://www.cnn.com/specials/world/cnn-climate)  |California gas rebates [CalMatters article ](https://calmatters.org/newsletters/whatmatters/2022/09/california-gas-tax-rebate/)      |
+|Russia Ukraine war [BBC article](https://www.bbc.com/news/world-60525350)|Student Loan is forgiven but taxes in CA [CNBC article](https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html) |
+|Roe vs Wade overturns womens rights [HRW article](https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights)|Student attendance awareness program [Patch article](https://patch.com/california/pleasanthill/contra-costa-co-september-marks-school-attendance-awareness)|
 |... |...|
 
 
