@@ -1,11 +1,11 @@
 
 | Global news  | Local News  | Social Media |
-| :---         |    :---:    |          ---:|
+| :----------  | :----------:| ------------:|
 | -----------  | ----------- | ------------ |
-|Pandemic changed the way we live [NYTimes](https://www.nytimes.com/news-event/coronavirus) | California Prop 28 - should I vote? [SF Chronicle](https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php) | [Twitter Trends](https://twitter.com/i/trends)
-|Climate change bring devastation to the planet [CNN](https://www.cnn.com/specials/world/cnn-climate) | California gas rebates [CalMatters article ](https://calmatters.org/newsletters/whatmatters/2022/09/california-gas-tax-rebate/)| [Instagram trending reels](https://slayingsocial.com/instagram-reels-trends/)
-|Russia Ukraine war [BBC](https://www.bbc.com/news/world-60525350) | Student Loan is forgiven but taxes in CA [CNBC](https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html)|[Youtube trending](https://www.youtube.com/feed/trending)
-|Roe vs Wade overturns womens rights [HRW](https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights) | Student attendance awareness program [Patch](https://patch.com/california/pleasanthill/contra-costa-co-september-marks-school-attendance-awareness)|[Tiktok trends](https://ads.tiktok.com/business/creativecenter/inspiration/popular/pc/en)
+|Pandemic changed the way we live [NYTimes](https://www.nytimes.com/news-event/coronavirus) | California Prop 28 - should I vote? [SF Chronicle](https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php) | [Twitter Trends](https://twitter.com/i/trends)|
+|Climate change bring devastation to the planet [CNN](https://www.cnn.com/specials/world/cnn-climate) | California gas rebates [CalMatters article ](https://calmatters.org/newsletters/whatmatters/2022/09/california-gas-tax-rebate/)| [Instagram trending reels](https://slayingsocial.com/instagram-reels-trends/)|
+|Russia Ukraine war [BBC](https://www.bbc.com/news/world-60525350) | Student Loan is forgiven but taxes in CA [CNBC](https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html)|[Youtube trending](https://www.youtube.com/feed/trending)|
+|Roe vs Wade overturns womens rights [HRW](https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights) | Student attendance awareness program [Patch](https://patch.com/california/pleasanthill/contra-costa-co-september-marks-school-attendance-awareness)|[Tiktok trends](https://ads.tiktok.com/business/creativecenter/inspiration/popular/pc/en)|
 |... | ...| ...|
 
 <br/>
@@ -29,7 +29,6 @@
 As a member of the next generation who will be able to vote in the next election (...and anyone born before Nov. 2006) I feel it is  urgent that my generation begins to educate themselves beyond the headlines, shorts and tweets.
 
 >>***Therefore, I introduce "Be the Change”, a novel and easy way to provide vetted, curated and relevant content to the youth while enabling them to engage in social dialog that may impact a change.***  
-
 
 
 <br/>
