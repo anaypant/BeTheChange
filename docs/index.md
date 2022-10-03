@@ -1,5 +1,10 @@
 ## What "Change" is needed?
 
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
+
 #### Global news:
 - In 2020 the pandemic hit the world and changed the way we live. [https://www.nytimes.com/news-event/coronavirus ](https://www.nytimes.com/news-event/coronavirus)
 - In 2022 climate change and heat waves brought devastation to the planet.[https://www.cnn.com/specials/world/cnn-climate ](https://www.cnn.com/specials/world/cnn-climate)
