@@ -1,0 +1,12 @@
+menu:
+- {name: 'publications', url: '/publications'}
+- {name: 'cv', url: '/cv'}
+- {name: 'contact', url: '/contact'}
+
+social:
+- {icon: 'github', link: 'https://github.com/baskaufs'}
+- {icon: 'twitter', link: 'https://twitter.com/baskaufs'}
+- {icon: 'instagram', link: 'https://instagram.com/baskaufs'}
+
+contacts:
+- {name: 'Steve Le Baskoof', title: 'Adventurer and agent provocateur', department: 'Digital Scholarship and Communications (DiSC)', institution: 'Vanderbilt University Libraries', institution_address: 'Nashville, Tennessee, USA', phone: '(615) 123-4567', email: 'steve.baskauf@vanderbilt.edu', office: 'Eskind Biometical Library 111', image: 'assets/img/contact.jpg'}
