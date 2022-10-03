@@ -1,6 +1,7 @@
 ### Why the call for "Change" ?
 
 | Global news  | Local News  |
+| :---         |        ---: |
 | -----------  | ----------- |
 |Pandemic changed the way we live. [NYTimes article](https://www.nytimes.com/news-event/coronavirus) | California Prop 28 - should I vote? [SF Chronicle article ](https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php) |
 |Climate change bring devastation to the planet.[CNN article](https://www.cnn.com/specials/world/cnn-climate) | California gas rebates [CalMatters article ](https://calmatters.org/newsletters/whatmatters/2022/09/california-gas-tax-rebate/)|
@@ -16,11 +17,11 @@
 
 - The youth is so busy lapping up music videos, sports videos, tiktoks etc increasingly leading to less to no partcipation in information directly related to their lives and their future. <br/> For example, recently (as of Sept. 2022), Pres. Biden announced that he would execute a policy to cut $10,000 of student debt from students in low-middle income families. However, when I brought this topic up with my friends, and then later with my brother, they had not heard the news or if they had , they could not remember. 
 
-<em> This culture is detrimental to our nation as a democracy. Youth are our future and civic engagement and dialogue with them is necessary to shape that future. Misinformation leads to confusion and wrong decisions. It is important to separate fact from fiction. </em>
+#### This culture is detrimental to our nation as a democracy. Youth are our future and civic engagement and dialogue with them is necessary to shape that future. Misinformation leads to confusion and wrong decisions. It is important to separate fact from fiction. ####
 
 ### A proposal :
 
 As a member of the next generation who will be able to vote in the next election (...and anyone born before Nov. 2006) I feel it is  urgent that my generation begins to educate themselves on national matters beyond the headlines, shorts and tweets.. 
 
-<em> Therefore, I introduce <em> **"Be the Change”** , a novel and easy to use way to provide vetted , curated and relevant content to the youth and provides a plaltform to create a dialog that may impact a change </em>.
+#### Therefore, I introduce **"Be the Change”** , a novel and easy to use way to provide vetted , curated and relevant content to the youth and provides a plaltform to create a dialog that may impact a change. ####
 
