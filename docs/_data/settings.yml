@@ -1,6 +1,6 @@
 menu:
 - {name: 'research', url: '/research'}
-- {name: 'userstudy', url: '/userstudy'}
+- {name: 'analytics', url: '/analytics'}
 - {name: 'about', url: '/about'}
 
 social:
