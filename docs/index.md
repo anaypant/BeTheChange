@@ -16,11 +16,11 @@
 
 - The youth is so busy lapping up music videos, sports videos, tiktoks etc increasingly leading to less to no partcipation in information directly related to their lives and their future. <br/> For example, recently (as of Sept. 2022), Pres. Biden announced that he would execute a policy to cut $10,000 of student debt from students in low-middle income families. However, when I brought this topic up with my friends, and then later with my brother, they had not heard the news or if they had , they could not remember. 
 
-> This culture is detrimental to our nation as a democracy. Youth are our future and civic engagement and dialogue with them is necessary to shape that future. Misinformation leads to confusion and wrong decisions. It is important to separate fact from fiction. 
+<em> This culture is detrimental to our nation as a democracy. Youth are our future and civic engagement and dialogue with them is necessary to shape that future. Misinformation leads to confusion and wrong decisions. It is important to separate fact from fiction. </em>
 
 ## A proposal :
 
 As a member of the next generation who will be able to vote in the next election (...and anyone born before Nov. 2006) I feel it is  urgent that my generation begins to educate themselves on national matters beyond the headlines, shorts and tweets.. 
 
-Therefore, I introduce <em> **"Be the Change”** , a novel and easy to use way to provide vetted , curated and relevant content to the youth and provides a plaltform to create a dialog that may impact a change </em>.
+<em> Therefore, I introduce <em> **"Be the Change”** , a novel and easy to use way to provide vetted , curated and relevant content to the youth and provides a plaltform to create a dialog that may impact a change </em>.
 
