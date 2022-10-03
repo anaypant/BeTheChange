@@ -1,6 +1,6 @@
->> Be the change that you wish to see in the world.  Mahatama Gandhi >>
+< Be the change that you wish to see in the world - Mahatama Gandhi 
 
-## What is this call to "Change"
+## What "Change" is needed?
 
 
 Global news:
