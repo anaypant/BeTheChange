@@ -1,15 +1,15 @@
-## Why the call for "Change" ?
+### Why the call for "Change" ?
 
 | Global news  | Local News  |
 | -----------  | ----------- |
-|Pandemic changed the way we live. [NYTimes article](https://www.nytimes.com/news-event/coronavirus)    |California Prop 28 - should I vote? [SF Chronicle article ](https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php)     |
-|Climate change bring devastation to the planet.[CNN article](https://www.cnn.com/specials/world/cnn-climate)  |California gas rebates [CalMatters article ](https://calmatters.org/newsletters/whatmatters/2022/09/california-gas-tax-rebate/)      |
-|Russia Ukraine war [BBC article](https://www.bbc.com/news/world-60525350)|Student Loan is forgiven but taxes in CA [CNBC article](https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html) |
-|Roe vs Wade overturns womens rights [HRW article](https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights)|Student attendance awareness program [Patch article](https://patch.com/california/pleasanthill/contra-costa-co-september-marks-school-attendance-awareness)|
-|... |...|
+|Pandemic changed the way we live. [NYTimes article](https://www.nytimes.com/news-event/coronavirus) | California Prop 28 - should I vote? [SF Chronicle article ](https://www.sfchronicle.com/opinion/editorials/article/Editorial-vote-yes-on-prop-28-17427617.php) |
+|Climate change bring devastation to the planet.[CNN article](https://www.cnn.com/specials/world/cnn-climate) | California gas rebates [CalMatters article ](https://calmatters.org/newsletters/whatmatters/2022/09/california-gas-tax-rebate/)|
+|Russia Ukraine war [BBC article](https://www.bbc.com/news/world-60525350) | Student Loan is forgiven but taxes in CA [CNBC article](https://www.cnbc.com/2022/09/08/you-may-owe-taxes-for-federal-student-loan-forgiveness-in-these-states.html)|
+|Roe vs Wade overturns womens rights [HRW article](https://www.hrw.org/news/2022/06/24/us-supreme-court-topples-roe-v-wade-blow-rights) | Student attendance awareness program [Patch article](https://patch.com/california/pleasanthill/contra-costa-co-september-marks-school-attendance-awareness)|
+|... | ...|
 
 
-## What is the Problem 
+### What is the Problem 
 - There is an <em> overwhelming amount of information </em> out there for people to consume on a daily basis. There are umpteen media channels, news companies e.g. CNN, BBC etc, Social media platforms  e.g. Youtube, Twitter, Blogging sites. 
 
 - It is no surprise that most people skim the news for bytes or headlines  and miss out on relevant news & content. There is also a <em> danger of unsubstanitiated articles and rumor mongering with false news videos </em>.
@@ -18,7 +18,7 @@
 
 <em> This culture is detrimental to our nation as a democracy. Youth are our future and civic engagement and dialogue with them is necessary to shape that future. Misinformation leads to confusion and wrong decisions. It is important to separate fact from fiction. </em>
 
-## A proposal :
+### A proposal :
 
 As a member of the next generation who will be able to vote in the next election (...and anyone born before Nov. 2006) I feel it is  urgent that my generation begins to educate themselves on national matters beyond the headlines, shorts and tweets.. 
 
