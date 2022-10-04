@@ -1,7 +1,7 @@
 menu:
 - {name: 'solution', url: '/solution'}
+- {name: 'outreach', url: '/outreach'}
 - {name: 'analytics', url: '/analytics'}
-- {name: 'about', url: '/about'}
 
 social:
 - {icon: 'github', link: 'https://github.com/anaypant'}
