@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.qrated">
+    package="com.anaypant.qrated">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,22 +18,22 @@
         android:theme="@style/Theme.BeTheChange"
         tools:targetApi="31">
         <activity
-            android:name=".CommentActivity"
+            android:name="com.anaypant.qrated.CommentActivity"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.anaypant.qrated.SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.anaypant.qrated.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.anaypant.qrated.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".AddUsersActivity"
+            android:name="com.anaypant.qrated.AddUsersActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name="com.anaypant.qrated.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
