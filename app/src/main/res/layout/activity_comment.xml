@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.btc.CommentActivity"
+    tools:context="com.example.qrated.CommentActivity"
     android:background="#84ABCA">
 
     <TextView
@@ -17,16 +17,17 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textStyle="bold" />
+
     <TextView
+        android:id="@+id/addYourOwnTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/addYourOwnTextView"
-        android:text="Or add your own: "
-        android:textSize="20sp"
         android:layout_below="@id/CommentsTitle"
         android:layout_centerHorizontal="true"
+        android:text="Or add your own: "
         android:textAlignment="center"
         android:textColor="@color/white"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <EditText
@@ -37,7 +38,9 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
         android:background="@color/white"
-        android:textColor="@color/black"/>
+        android:hint="Enter your text here (144 char limit)"
+        android:textColorHint="@color/dead_vote"
+        android:textColor="@color/black" />
 
     <ImageButton
         android:id="@+id/addCommentButton"

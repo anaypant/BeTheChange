@@ -3,11 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="#FFF0DA">
+    app:cardBackgroundColor="#E1FFFF"
+    android:layout_margin="4dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:layout_width="140dp"
@@ -31,9 +34,9 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 app:autoSizeTextType="uniform"
-                app:autoSizeMinTextSize="12sp"
-                app:autoSizeMaxTextSize="30sp"
-                app:autoSizeStepGranularity="2sp"
+                app:autoSizeMinTextSize="15sp"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeStepGranularity="5sp"
                 android:text=""
                 android:layout_marginStart="15dp"
                 android:id="@+id/commentContentField"
@@ -41,6 +44,7 @@
                 android:textAlignment="center"/>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
