@@ -1,25 +1,28 @@
 package com.example.btc;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.btc.Adapters.CommentAdapter;
+import com.example.btc.Interfaces.FirebaseCommentCallback;
+import com.example.btc.Interfaces.FirebaseStringCallback;
+import com.example.btc.utils.firebaseUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +31,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CommentActivity extends AppCompatActivity {
-
     RecyclerView recyclerView;
     List<Map> commentsList;
     ImageButton backArrow, submitComment;
@@ -36,12 +38,13 @@ public class CommentActivity extends AppCompatActivity {
     String tabName;
     CommentAdapter commentAdapter;
     int position;
+
     public CommentActivity(){}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_comment);
+        setContentView(R.layout.activity_comment);
 
         recyclerView = findViewById(R.id.CommentsRecyclerFragment);
         commentField = findViewById(R.id.addCommentTextField);
@@ -55,8 +58,6 @@ public class CommentActivity extends AppCompatActivity {
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("yes");
-                // check if field is empty
                 if(commentField.getText().toString().equals("")){
                     Toast.makeText(CommentActivity.this, "Please enter a valid comment.", Toast.LENGTH_SHORT).show();
                     return;
@@ -67,12 +68,41 @@ public class CommentActivity extends AppCompatActivity {
                 }
                 else{
                     // add to references
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position));
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("comments").child(tabName).child(String.valueOf(position));
                     HashMap<String, Object> h = new HashMap<>();
                     assert FirebaseAuth.getInstance().getCurrentUser() != null;
                     h.put("user",FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                     h.put("comment",commentField.getText().toString());
-                    ref.child("comments").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(h);
+                    firebaseUtils.getLastKeyFromComments(position, tabName, new FirebaseStringCallback() {
+                        @Override
+                        public void onStringCallback(String s) {
+                            String newKey = String.valueOf(Integer.parseInt(s) + 1);
+                            ref.child(newKey).setValue(h);
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("articles").child(tabName).child(String.valueOf(position));
+                            ref.child("commentCt").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    String s = Objects.requireNonNull(task.getResult().getValue(String.class));
+                                    ref.child("commentCt").setValue(String.valueOf(Integer.parseInt(s) + 1)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            firebaseUtils.getCommentsFromDB(position, tabName, new FirebaseCommentCallback() {
+                                                @Override
+                                                public void onCommentCallback(List<Map> comments) {
+                                                    commentsList = comments;
+                                                    commentAdapter.setModelClasses(commentsList);
+                                                    commentAdapter.notifyDataSetChanged();
+                                                    commentField.setText("");
+
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+
+                        }
+                    });
                 }
             }
         });
@@ -83,6 +113,7 @@ public class CommentActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Intent intent = new Intent(CommentActivity.this, MainActivity.class);
+                        intent.putExtra("tab",(tabName));
                         startActivity(intent);
                         finish();
                     }
@@ -91,10 +122,11 @@ public class CommentActivity extends AppCompatActivity {
             }
         });
         commentField.setMaxHeight(60);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-             position = Integer.parseInt(extras.getString("position"));
-             tabName = extras.getString("tabName");
+            position = Integer.parseInt(extras.getString("pos"));
+            tabName = extras.getString("tab");
             //The key argument here must match that used in the other activity
         }
         else{
@@ -102,31 +134,13 @@ public class CommentActivity extends AppCompatActivity {
             tabName = "null";
             System.out.println("BIG BOY ERROR");
         }
-        getCommentsFromDB();
-
-    }
-
-    private void getCommentsFromDB(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("articles").child(tabName).child(String.valueOf(position)).child("comments");
-        ref.addValueEventListener(new ValueEventListener() {
+        firebaseUtils.getCommentsFromDB(position, tabName, new FirebaseCommentCallback() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                commentsList.clear();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Map mU = new HashMap();
-                    mU.put("user", ((Map<String, Object>) Objects.requireNonNull(ds.getValue())).get("user"));
-                    mU.put("comment", ((Map<String, Object>) ds.getValue()).get("comment"));
-
-                    commentsList.add(mU);
-                }
-                System.out.println(commentsList);
+            public void onCommentCallback(List<Map> comments) {
+                commentsList = comments;
                 commentAdapter.setModelClasses(commentsList);
-                commentAdapter.notifyItemChanged(position);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                commentAdapter.notifyDataSetChanged();
 
             }
         });
