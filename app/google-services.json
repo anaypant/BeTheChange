@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "680804761029",
+    "project_id": "bethechange-6478e",
+    "storage_bucket": "bethechange-6478e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680804761029:android:0f2bf871a0827aac215fac",
+        "android_client_info": {
+          "package_name": "com.example.btc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "680804761029-pm1g0pujsr829upb1iephe6na97gobpk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3RvbxHdSBDFfp6gKbY5kh6p1CPWyUoFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "680804761029-pm1g0pujsr829upb1iephe6na97gobpk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
