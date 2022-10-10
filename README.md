@@ -15,10 +15,8 @@
   * Downvote article, should see it downvoted instantly
   * Click on comments , should be able to see comments 
   * Add a comment, should be able to add instantly 
-  * * Should be able to see category I am in , once I finish a comment. Right now I navigate to first activity 
-  * See comment count
+  * * Should be able to see category I am in , once I finish a comment. 
   * Ability to sign out
-  * 
 ### Nice to have
   * Edit a comment
   
