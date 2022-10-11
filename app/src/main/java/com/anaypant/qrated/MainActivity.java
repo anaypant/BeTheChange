@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -61,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         socialItem = findViewById(R.id.SocietyTab);
 
         newsPage = findViewById(R.id.fragment_container);
+        tabAdapter = new TabAdapter(getSupportFragmentManager(), 4);
+        newsPage.setAdapter(tabAdapter);
+        newsPage.setOffscreenPageLimit(3);
 
 
 
@@ -71,22 +75,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onBoolCallback(boolean value) {
                 if(value){
+                    Toast.makeText(MainActivity.this, "News Update!", Toast.LENGTH_SHORT).show();
                     System.out.println("--------- Updating news ----------");
                     apiUtils.getNewsFromCategory("TrendingNews", apiKey);
                     apiUtils.getNewsFromCategory("EconomyNews", apiKey);
                     apiUtils.getNewsFromCategory("EnvironmentNews", apiKey);
                     apiUtils.getNewsFromCategory("SocietyNews", apiKey);
-                    firebaseUtils.resetComments();
+                    firebaseUtils.resetComments(new FirebaseBoolCallback() {
+                        @Override
+                        public void onBoolCallback(boolean value) {
+                            tabAdapter.notifyDataSetChanged();
+                            recreate();
+                        }
+                    });
 
                 }
-                else{
-                    //Toast.makeText(MainActivity.this, "Debug: No news update", Toast.LENGTH_SHORT).show();
-                }
-
-                tabAdapter = new TabAdapter(getSupportFragmentManager(), 4);
-                newsPage.setAdapter(tabAdapter);
-                newsPage.setOffscreenPageLimit(3);
-
                 //Here we go!
                 fancyTitle.setText(baseUtils.getFancyTitle());
 

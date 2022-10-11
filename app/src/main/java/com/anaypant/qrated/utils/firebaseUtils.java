@@ -136,15 +136,16 @@ public class firebaseUtils {
                                 ref.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        boolean found = false;
                                         for (DataSnapshot ds : snapshot.getChildren()) {
                                             ModelUser mU = ds.getValue(ModelUser.class);
                                             assert mU != null;
                                             if (mU.getName().equals(user) && mU.getEmail().equals(email)) {
-                                                firebaseBoolCallback.onBoolCallback(true);
+                                                found = true;
                                             }
 
                                         }
-                                        firebaseBoolCallback.onBoolCallback(false);
+                                        firebaseBoolCallback.onBoolCallback(found);
                                     }
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
@@ -157,7 +158,7 @@ public class firebaseUtils {
 
                         }
                         else{
-                            Toast.makeText(context, "Authentication Error.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Authentication Error. Check Email / Password", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -423,9 +424,10 @@ public class firebaseUtils {
             }
         });
     }
-    public static void resetComments(){
+    public static void resetComments(FirebaseBoolCallback boolCallback){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("comments").removeValue();
+        boolCallback.onBoolCallback(true);
     }
 
 
