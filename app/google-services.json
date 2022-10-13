@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:817896276476:android:082351c016dfe623013279",
         "android_client_info": {
-          "package_name": "com.anaypant.btc"
+          "package_name": "com.anaypant.qrated"
         }
       },
       "oauth_client": [
@@ -39,7 +39,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:817896276476:android:b9d15b5d5db1f167013279",
         "android_client_info": {
-          "package_name": "com.example.btcrelease"
+          "package_name": "com.example.qrated"
         }
       },
       "oauth_client": [
