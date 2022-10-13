@@ -25,9 +25,15 @@ public class EconomyFragment extends Fragment {
     NewsAdapter adapter;
     ArrayList<ModelNews> news = new ArrayList<>();
     private String tabName;
+    int topPosition = 0;
 
 
     public EconomyFragment() {this.tabName = "EconomyNews";}
+
+    public EconomyFragment(int pos) {
+        this.tabName = "EconomyNews";
+        topPosition = pos;
+    }
     public static EconomyFragment newInstance(String param1) {
         EconomyFragment fragment = new EconomyFragment();
         Bundle args = new Bundle();
@@ -63,6 +69,8 @@ public class EconomyFragment extends Fragment {
                     }
                 });
                 recyclerView.setAdapter(adapter);
+                recyclerView.smoothScrollToPosition(topPosition);
+
             }
         });
 

@@ -7,6 +7,11 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.anaypant.qrated.Fragments.EconomyFragment;
+import com.anaypant.qrated.Fragments.EnvironmentFragment;
+import com.anaypant.qrated.Fragments.SocietyFragment;
+import com.anaypant.qrated.Fragments.TrendingFragment;
+
 public class TabAdapter extends FragmentStateAdapter {
     private final int tabCount;
     public TabAdapter(@NonNull FragmentManager fm, int behavior){
@@ -34,13 +39,28 @@ public class TabAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new com.anaypant.qrated.Fragments.TrendingFragment();
+                return new TrendingFragment();
             case 1:
-                return new com.anaypant.qrated.Fragments.EconomyFragment();
+                return new EconomyFragment();
             case 2:
-                return new com.anaypant.qrated.Fragments.EnvironmentFragment();
+                return new EnvironmentFragment();
             case 3:
-                return new com.anaypant.qrated.Fragments.SocietyFragment();
+                return new SocietyFragment();
+            default:
+                return null;
+        }
+    }
+
+    public Fragment createFragment(int position, int targetPos) {
+        switch (position){
+            case 0:
+                return new TrendingFragment(targetPos);
+            case 1:
+                return new EconomyFragment(targetPos);
+            case 2:
+                return new EnvironmentFragment(targetPos);
+            case 3:
+                return new SocietyFragment(targetPos);
             default:
                 return null;
         }

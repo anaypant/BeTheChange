@@ -55,12 +55,6 @@ public class CommentActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(CommentActivity.this));
         commentAdapter = new CommentAdapter(CommentActivity.this, commentsList, tabName);
         recyclerView.setAdapter(commentAdapter);
-//        commentField.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                commentField.getText().clear();
-//            }
-//        });
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +114,7 @@ public class CommentActivity extends AppCompatActivity {
                     public void run() {
                         Intent intent = new Intent(CommentActivity.this, MainActivity.class);
                         intent.putExtra("tab",(tabName));
+                        intent.putExtra("pos", position);
                         startActivity(intent);
                         finish();
                     }

@@ -1,9 +1,13 @@
 package com.anaypant.qrated.utils;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.anaypant.qrated.Frames.ModelUser;
 import com.anaypant.qrated.Interfaces.FirebaseUserCallback;
+import com.anaypant.qrated.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -62,4 +66,26 @@ public class baseUtils {
                 });
             }
     }
+
+    public static boolean passedNullChecks(String email, String user, String pwd, Context context){
+        // Makes sure all entries are valid.
+        if (email.equals("") || pwd.equals("") || user.equals("")) {
+            Toast.makeText(context, "Please enter all the fields.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(user.contains("%")){
+            Toast.makeText(context, "Username cannot contain %.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!(email.contains("@") && email.contains("."))) {
+            Toast.makeText(context, "Email is Invalid", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(pwd.length() < 6){
+            Toast.makeText(context, "Please enter min. 6 length password.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 }
+

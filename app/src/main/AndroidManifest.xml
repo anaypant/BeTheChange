@@ -18,22 +18,29 @@
         android:theme="@style/Theme.BeTheChange"
         tools:targetApi="31">
         <activity
-            android:name="com.anaypant.qrated.CommentActivity"
+            android:name=".SignUpActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".CommentActivity"
             android:exported="false" />
         <activity
-            android:name="com.anaypant.qrated.SettingsActivity"
+            android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name="com.anaypant.qrated.LoginActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.anaypant.qrated.MainActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name="com.anaypant.qrated.AddUsersActivity"
+            android:name=".AddUsersActivity"
             android:exported="false" />
         <activity
-            android:name="com.anaypant.qrated.SplashScreen"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

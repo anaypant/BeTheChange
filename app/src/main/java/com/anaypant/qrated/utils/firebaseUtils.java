@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class firebaseUtils {
-    public static void createUser(String user, String email, String pwd, Context context){
+    public static void createUser(String user, String email, String pwd, Context context, FirebaseBoolCallback callback){
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.fetchSignInMethodsForEmail(email).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
             @Override
@@ -73,6 +73,7 @@ public class firebaseUtils {
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
+                                                            callback.onBoolCallback(true);
                                                         }
                                                     });
 
@@ -428,6 +429,30 @@ public class firebaseUtils {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("comments").removeValue();
         boolCallback.onBoolCallback(true);
+    }
+
+    public static void getEmailFromDisplayName(String user, FirebaseStringCallback callback){
+        // look through realtime database to see if user exists
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds: snapshot.getChildren()){
+                    ModelUser mU = ds.getValue(ModelUser.class);
+                    System.out.printf(mU.getName());
+                    if(mU.getName().equals(user)){
+                        callback.onStringCallback(mU.getEmail());
+                        return;
+                    }
+                }
+                callback.onStringCallback("%null%");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 

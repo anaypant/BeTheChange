@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,17 +28,12 @@ public class TrendingFragment extends Fragment {
     ArrayList<ModelNews> news = new ArrayList<>();
     private String tabName;
     private Parcelable recyclerViewState;
+    private int topPosition = 0;
 
 
 
     public TrendingFragment() {this.tabName = "TrendingNews";}
-    public static TrendingFragment newInstance(String param1) {
-        TrendingFragment fragment = new TrendingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public TrendingFragment(int top) {this.tabName = "TrendingNews"; topPosition = top;}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +62,7 @@ public class TrendingFragment extends Fragment {
                     }
                 });
                 recyclerView.setAdapter(adapter);
+                recyclerView.smoothScrollToPosition(topPosition);
             }
         });
 

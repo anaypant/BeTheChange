@@ -25,9 +25,12 @@ public class SocietyFragment extends Fragment {
     NewsAdapter adapter;
     ArrayList<ModelNews> news = new ArrayList<>();
     private String tabName;
+    int topPosition = 0;
 
 
     public SocietyFragment() {this.tabName = "SocietyNews";}
+    public SocietyFragment(int pos) {this.tabName = "SocietyNews"; topPosition = pos;}
+
     public static SocietyFragment newInstance(String param1) {
         SocietyFragment fragment = new SocietyFragment();
         Bundle args = new Bundle();
@@ -63,6 +66,8 @@ public class SocietyFragment extends Fragment {
                     }
                 });
                 recyclerView.setAdapter(adapter);
+                recyclerView.smoothScrollToPosition(topPosition);
+
             }
         });
 

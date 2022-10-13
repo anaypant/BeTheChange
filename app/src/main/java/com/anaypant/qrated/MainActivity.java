@@ -25,6 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
+//Main Activity
 public class MainActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ImageButton settingsButton, addFriendsButton;
     ViewPager2 newsPage, addUserPage;
     String currentTab;
+    int currentNewsPos = -1;
     String apiKey = apiUtils.getApiKey();
     Toolbar toolbar;
     String[] cats = new String[]{"TrendingNews", "EconomyNews", "EnvironmentNews", "SocietyNews"};
@@ -94,17 +96,21 @@ public class MainActivity extends AppCompatActivity {
                 fancyTitle.setText(baseUtils.getFancyTitle());
 
                 // Updates when tab is selected
+                currentNewsPos = -1;
                 Bundle extras = getIntent().getExtras();
                 if (extras != null) {
                     System.out.println("FOUND EXTRAS");
                     currentTab = extras.getString("tab");
+                    System.out.println("Pos: " + extras.getInt("pos"));
+                    if(extras.getInt("pos") != -1){
+                        currentNewsPos = extras.getInt("pos");
+                    }
                 }
                 if(!Objects.equals(currentTab, "")){
                     for(int s = 0; s < cats.length; s++){
                         if(cats[s].equals(currentTab)){
                             newsPage.setCurrentItem(s);
                             tabLayout.selectTab(tabLayout.getTabAt(s));
-
                         }
                     }
                 }

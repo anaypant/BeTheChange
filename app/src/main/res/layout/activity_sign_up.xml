@@ -17,7 +17,7 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
         android:gravity="center"
-        android:text="Welcome Back!"
+        android:text="Welcome!"
         android:textColor="@color/white"
         android:textSize="35dp"
         android:textStyle="bold" />
@@ -77,7 +77,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/black" />
 
-    <!--<TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordField"
@@ -103,51 +103,41 @@
         android:padding="20dp"
         android:text=""
         android:textColor="@color/white"
-        android:textColorHint="@color/black" />-->
+        android:textColorHint="@color/black" />
 
-
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:id="@+id/loginButton"
-            android:layout_below="@id/passwordField"
-            android:text="Login"
-            android:textAlignment="center"
-            android:layout_marginLeft="6dp"
-            android:layout_centerHorizontal="true"
-            />
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/loginButton"
-        android:text="Forgot Password?"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:id="@+id/pwdButton" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="Don't have an account?"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="20dp"
-        android:layout_below="@id/pwdButton"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/dontHaveAccount"
-        android:layout_marginTop="20dp"/>
     <com.google.android.material.button.MaterialButton
         android:layout_width="200dp"
         android:layout_height="50dp"
+        android:layout_marginLeft="2dp"
         android:textAlignment='center'
-        android:text="Go to Sign Up"
+        android:text="Sign Up"
         android:id="@+id/SignUpBtn"
-        android:layout_below="@id/dontHaveAccount"
+        android:layout_below="@id/emailField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="Already have an account?"
+        android:textColor="@color/white"
+        android:layout_below="@id/SignUpBtn"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:id="@+id/alreadyHaveAccountText"
+        android:layout_marginTop="20dp"/>
+
+    <com.google.android.material.button.MaterialButton
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:id="@+id/loginButton"
+            android:layout_below="@id/alreadyHaveAccountText"
+            android:text="Go to Login"
+            android:textAlignment="center"
+            android:layout_marginLeft="6dp"
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/purple_700"/>
+
 
 </RelativeLayout>

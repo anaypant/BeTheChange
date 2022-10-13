@@ -25,9 +25,12 @@ public class EnvironmentFragment extends Fragment {
     NewsAdapter adapter;
     ArrayList<ModelNews> news = new ArrayList<>();
     private String tabName;
+    int topPosition = 0;
 
 
     public EnvironmentFragment() {this.tabName = "EnvironmentNews";}
+    public EnvironmentFragment(int pos) {this.tabName = "EnvironmentNews"; topPosition = pos;}
+
     public static EnvironmentFragment newInstance(String param1) {
         EnvironmentFragment fragment = new EnvironmentFragment();
         Bundle args = new Bundle();
@@ -63,6 +66,7 @@ public class EnvironmentFragment extends Fragment {
                     }
                 });
                 recyclerView.setAdapter(adapter);
+                recyclerView.smoothScrollToPosition(topPosition);
 
             }
         });

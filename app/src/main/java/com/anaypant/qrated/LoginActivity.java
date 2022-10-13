@@ -6,11 +6,14 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.anaypant.qrated.Interfaces.FirebaseStringCallback;
 import com.anaypant.qrated.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.anaypant.qrated.Interfaces.FirebaseBoolCallback;
+import com.anaypant.qrated.utils.baseUtils;
 import com.anaypant.qrated.utils.firebaseUtils;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Basic setting up view stuff
-        emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
         usernameField = findViewById(R.id.userNameField);
 
@@ -53,14 +55,17 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String email = emailField.getText().toString().trim();
-                String user = usernameField.getText().toString().trim();
-                String pwd = passwordField.getText().toString().trim();
+                // go to sign up btn
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
 
-                // Makes sure all entries are valid.
-                if(passedNullChecks()){
-                    firebaseUtils.createUser(user, email, pwd, LoginActivity.this);
-                }
+                },0);
+
             }
         });
 
@@ -70,86 +75,82 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String email = emailField.getText().toString().trim();
                 String user = usernameField.getText().toString().trim();
-                String pwd = passwordField.getText().toString().trim();
-
-                //more null checks
-                if (email.equals("") || user.equals("")) {
+                if (user.equals("")) {
                     Toast.makeText(LoginActivity.this, "Please enter all the fields.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!(email.contains("@") && email.contains("."))) {
-                    Toast.makeText(LoginActivity.this, "Email is Invalid", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if(!(!email.contains("@") || !email.contains("."))){
-                    firebaseUtils.checkIfEmailExists(email, new FirebaseBoolCallback() {
-                        @Override
-                        public void onBoolCallback(boolean value) {
-                            if(value){
-                                //email doesn't exist
-                                firebaseUtils.resetUserPassword(email);
-                                Toast.makeText(LoginActivity.this, "Check email for reset.", Toast.LENGTH_SHORT).show();
-                            }
+                firebaseUtils.getEmailFromDisplayName(user, new FirebaseStringCallback() {
+                    @Override
+                    public void onStringCallback(String s) {
+                        if(s.equals("%null%")){
+                            Toast.makeText(LoginActivity.this, "Couldn't find account for username " + user, Toast.LENGTH_SHORT).show();
+                            return;
                         }
-                    });
-                }
+                        email = s;
+                        firebaseUtils.checkIfEmailExists(email, new FirebaseBoolCallback() {
+                            @Override
+                            public void onBoolCallback(boolean value) {
+                                if(value){
+                                    //email doesn't exist
+                                    firebaseUtils.resetUserPassword(email);
+                                    Toast.makeText(LoginActivity.this, "Check email for reset.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                });
             }
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
+            
 
             @Override
             public void onClick(View view) {
-                String email = emailField.getText().toString().trim();
                 String user = usernameField.getText().toString().trim();
                 String pwd = passwordField.getText().toString().trim();
-
-                if(passedNullChecks()){
-                    firebaseUtils.logInUser(email, pwd, user, LoginActivity.this, new FirebaseBoolCallback() {
-                        @Override
-                        public void onBoolCallback(boolean value) {
-                            if(value){
-                                new Handler().postDelayed(new Runnable() {
+                //need to check if email exists in database
+                firebaseUtils.getEmailFromDisplayName(user, new FirebaseStringCallback() {
+                    @Override
+                    public void onStringCallback(String s) {
+                        String email;
+                        if(s.equals("%null%")){
+                            Toast.makeText(LoginActivity.this, "No account with username " + user + " found.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else{
+                            email = s;
+                            if(baseUtils.passedNullChecks(email, user, pwd, LoginActivity.this)){
+                                firebaseUtils.logInUser(email, pwd, user, LoginActivity.this, new FirebaseBoolCallback() {
                                     @Override
-                                    public void run() {
-                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
+                                    public void onBoolCallback(boolean value) {
+                                        if(value){
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
 
-                                },0);
-                            }
-                            else{
-                                Toast.makeText(LoginActivity.this, "Username and email don't match.", Toast.LENGTH_SHORT).show();
+                                            },0);
+                                        }
+                                        else{
+                                            Toast.makeText(LoginActivity.this, "Username and email don't match.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }
                         }
-                    });
-                }
+                    }
+                });
+
+
             }
         });
 
     }
-    private boolean passedNullChecks(){
-        email = emailField.getText().toString().trim();
-        user = usernameField.getText().toString().trim();
-        pwd = passwordField.getText().toString().trim();
-        // Makes sure all entries are valid.
-        if (email.equals("") || pwd.equals("") || user.equals("")) {
-            Toast.makeText(LoginActivity.this, "Please enter all the fields.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (!(email.contains("@") && email.contains("."))) {
-            Toast.makeText(LoginActivity.this, "Email is Invalid", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if(pwd.length() < 6){
-            Toast.makeText(LoginActivity.this, "Please enter min. 6 length password.", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
-    }
+
 
 }
