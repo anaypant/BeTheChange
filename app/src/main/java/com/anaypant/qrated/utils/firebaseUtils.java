@@ -26,6 +26,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -187,25 +191,20 @@ public class firebaseUtils {
     public static void findNewsFromDB(String tabName, FirebaseNewsCallback firebaseNewsCallback){
         ArrayList<ModelNews> arr = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("articles");
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.child(tabName).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds: snapshot.child(tabName).getChildren()){
+                for(DataSnapshot ds: snapshot.getChildren()){
                     arr.add(ds.getValue(ModelNews.class));
                 }
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                    arr.sort(Comparator.comparingInt((ModelNews t) -> Integer.parseInt(t.getUpVoteCt())));
-//                }
-//                Collections.reverse(arr);
-
                 firebaseNewsCallback.onDBCallback(arr);
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                firebaseNewsCallback.onDBCallback(new ArrayList<>());
             }
+
         });
     }
     public static void addPendingRequestForUid(String targetUid){
@@ -453,6 +452,39 @@ public class firebaseUtils {
 
             }
         });
+    }
+
+    public static void addDataToFirestore(ArrayList<ModelNews> arr, String tabName, FirebaseStringCallback callback){
+        for(int x = 0; x < 1;x++){
+            HashMap<String, Object> mainMap = new HashMap<>();
+            ModelNews n = arr.get(x);
+            mainMap.put("author", n.getAuthor() + "   " + n.getPublishedAt());
+            mainMap.put("description", n.getDescription());
+            mainMap.put("title", n.getTitle());
+            mainMap.put("url", n.getUrl());
+            mainMap.put("imageUrl", n.getUrlToImage());
+            mainMap.put("publishedAt", n.getPublishedAt());
+            mainMap.put("upVoteCt", Integer.parseInt(n.getUpVoteCt()));
+            mainMap.put("downVoteCt", Integer.parseInt(n.getDownVoteCt()));
+            mainMap.put("commentCt", Integer.parseInt(n.getCommentCt()));
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            if(x < 10){
+                db.collection(tabName).document("0"+x).set(mainMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        callback.onStringCallback("done.");
+                    }
+                });
+            }
+            else{
+                db.collection(tabName).document(""+x).set(mainMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        callback.onStringCallback("done.");
+                    }
+                });
+            }
+        }
     }
 
 

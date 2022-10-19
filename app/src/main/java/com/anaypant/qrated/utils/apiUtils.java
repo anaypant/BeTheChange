@@ -5,10 +5,14 @@ import androidx.annotation.NonNull;
 import com.anaypant.qrated.Frames.ModelNews;
 import com.anaypant.qrated.Frames.TrendingNews;
 import com.anaypant.qrated.Interfaces.apiInterface;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -54,8 +58,40 @@ public class apiUtils {
                             news.get(x).setDownVoteCt("0");
                             news.get(x).setCommentCt("0");
                         }
-                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("articles");
-                        ref.child("TrendingNews").setValue(news);
+//                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("articles");
+//                        ref.child("TrendingNews").setValue(news);
+                        for(int x = 0; x < 5;x++){
+                            HashMap<String, Object> mainMap = new HashMap<>();
+                            ModelNews n = news.get(x);
+                            mainMap.put("author", n.getAuthor() + "   " + n.getPublishedAt());
+                            mainMap.put("description", n.getDescription());
+                            mainMap.put("title", n.getTitle());
+                            mainMap.put("url", n.getUrl());
+                            mainMap.put("imageUrl", n.getUrlToImage());
+                            mainMap.put("publishedAt", n.getPublishedAt());
+                            mainMap.put("upVoteCt", n.getUpVoteCt());
+                            mainMap.put("downVoteCt", n.getDownVoteCt());
+                            mainMap.put("commentCt", n.getCommentCt());
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            if(x < 10){
+                                db.collection(category).document("0"+x).set(mainMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                    }
+                                });
+
+                            }
+                            else{
+                                db.collection(category).document(""+x).set(mainMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                    }
+                                });
+                            }
+                        }
+
                     }
                 }
 
@@ -88,6 +124,8 @@ public class apiUtils {
                             }
                             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("articles");
                             ref.child(category).setValue(news);
+
+
                         }
                     }
 

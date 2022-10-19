@@ -14,7 +14,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.anaypant.qrated.Adapters.TabAdapter;
+import com.anaypant.qrated.Frames.ModelNews;
 import com.anaypant.qrated.Interfaces.FirebaseBoolCallback;
+import com.anaypant.qrated.Interfaces.FirebaseNewsCallback;
+import com.anaypant.qrated.Interfaces.FirebaseStringCallback;
 import com.anaypant.qrated.utils.apiUtils;
 import com.anaypant.qrated.utils.baseUtils;
 import com.anaypant.qrated.utils.firebaseUtils;
@@ -23,6 +26,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 //Main Activity
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     String[] cats = new String[]{"TrendingNews", "EconomyNews", "EnvironmentNews", "SocietyNews"};
     MaterialButton btcHeader;
     private final boolean DEBUG_NEWS = false;
+    private boolean FIRESTORE_ADD = false;
 
 
     @Override
@@ -68,128 +73,137 @@ public class MainActivity extends AppCompatActivity {
         newsPage.setAdapter(tabAdapter);
         newsPage.setOffscreenPageLimit(3);
 
+        if(FIRESTORE_ADD){
+            FIRESTORE_ADD = false;
 
-
-
-
-        // Checks if news needs to be updated and if so, does it
-        firebaseUtils.checkIfNewsNeedsUpdate(new FirebaseBoolCallback() {
-            @Override
-            public void onBoolCallback(boolean value) {
-                if(value){
-                    Toast.makeText(MainActivity.this, "News Update!", Toast.LENGTH_SHORT).show();
-                    System.out.println("--------- Updating news ----------");
-                    apiUtils.getNewsFromCategory("TrendingNews", apiKey);
-                    apiUtils.getNewsFromCategory("EconomyNews", apiKey);
-                    apiUtils.getNewsFromCategory("EnvironmentNews", apiKey);
-                    apiUtils.getNewsFromCategory("SocietyNews", apiKey);
-                    firebaseUtils.resetComments(new FirebaseBoolCallback() {
+            firebaseUtils.findNewsFromDB("SocietyNews", new FirebaseNewsCallback() {
+                @Override
+                public void onDBCallback(ArrayList<ModelNews> val) {
+                    System.out.println(val.get(0).toString());
+                    System.out.println(val.size());
+                    //add one article from trending news
+                    ArrayList<ModelNews> newV = new ArrayList<>();
+                    newV.add(val.get(0));
+                    firebaseUtils.addDataToFirestore(newV, "SocietyNews", new FirebaseStringCallback() {
                         @Override
-                        public void onBoolCallback(boolean value) {
+                        public void onStringCallback(String s) {
+
+                        }
+                    });
+                }
+            });
+        }
+
+        firebaseUtils.checkIfNewsNeedsUpdate(new FirebaseBoolCallback() {
+                @Override
+                public void onBoolCallback(boolean value) {
+                    if(value){
+                        System.out.println("--------- Updating news ----------");
+                        apiUtils.getNewsFromCategory("TrendingNews", apiKey);
+                        apiUtils.getNewsFromCategory("EconomyNews", apiKey);
+                        apiUtils.getNewsFromCategory("EnvironmentNews", apiKey);
+                        apiUtils.getNewsFromCategory("SocietyNews", apiKey);
+                        firebaseUtils.resetComments(new FirebaseBoolCallback() {
+                            @Override
+                            public void onBoolCallback(boolean value) {
+                                tabAdapter.notifyDataSetChanged();
+                                recreate();
+                            }
+                        });
+
+                    }
+                    //Here we go!
+                    fancyTitle.setText(baseUtils.getFancyTitle());
+
+                    // Updates when tab is selected
+                    currentNewsPos = -1;
+                    Bundle extras = getIntent().getExtras();
+                    if (extras != null) {
+                        System.out.println("FOUND EXTRAS");
+                        currentTab = extras.getString("tab");
+                        System.out.println("Pos: " + extras.getInt("pos"));
+                        if(extras.getInt("pos") != -1){
+                            currentNewsPos = extras.getInt("pos");
+                        }
+                    }
+                    if(!Objects.equals(currentTab, "")){
+                        for(int s = 0; s < cats.length; s++){
+                            if(cats[s].equals(currentTab)){
+                                newsPage.setCurrentItem(s);
+                                tabLayout.selectTab(tabLayout.getTabAt(s));
+                            }
+                        }
+                    }
+
+                    tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                        @Override
+                        public void onTabSelected(TabLayout.Tab tab) {
+                            newsPage.setCurrentItem(tab.getPosition());
+                            tabAdapter.createFragment(tab.getPosition());
                             tabAdapter.notifyDataSetChanged();
-                            recreate();
+                            currentTab = cats[tab.getPosition()];
+
+                        }
+
+                        @Override
+                        public void onTabUnselected(TabLayout.Tab tab) {
+
+                        }
+
+                        @Override
+                        public void onTabReselected(TabLayout.Tab tab) {
+
+                        }
+                    });
+                    // Update Viewpager if user swiped
+                    newsPage.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                        @Override
+                        public void onPageSelected(int position) {tabLayout.selectTab(tabLayout.getTabAt(position));}});
+
+
+                    // Listeners for settings buttons / add friends buttons
+                    settingsButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // go to settings activity
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                                    intent.putExtra("tab", currentTab);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                            },0);
                         }
                     });
 
-                }
-                //Here we go!
-                fancyTitle.setText(baseUtils.getFancyTitle());
+                    addFriendsButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // go to add users activity
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(MainActivity.this, AddUsersActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
 
-                // Updates when tab is selected
-                currentNewsPos = -1;
-                Bundle extras = getIntent().getExtras();
-                if (extras != null) {
-                    System.out.println("FOUND EXTRAS");
-                    currentTab = extras.getString("tab");
-                    System.out.println("Pos: " + extras.getInt("pos"));
-                    if(extras.getInt("pos") != -1){
-                        currentNewsPos = extras.getInt("pos");
-                    }
-                }
-                if(!Objects.equals(currentTab, "")){
-                    for(int s = 0; s < cats.length; s++){
-                        if(cats[s].equals(currentTab)){
-                            newsPage.setCurrentItem(s);
-                            tabLayout.selectTab(tabLayout.getTabAt(s));
+                            },0);
+
                         }
-                    }
+                    });
+                    btcHeader.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setData(Uri.parse("https://anaypant.github.io/Qrated/"));
+                            startActivity(intent);
+                        }
+                    });
                 }
-
-                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab) {
-                        newsPage.setCurrentItem(tab.getPosition());
-                        tabAdapter.createFragment(tab.getPosition());
-                        tabAdapter.notifyDataSetChanged();
-                        currentTab = cats[tab.getPosition()];
-
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab) {
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-
-                    }
-                });
-                // Update Viewpager if user swiped
-                newsPage.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-                    @Override
-                    public void onPageSelected(int position) {tabLayout.selectTab(tabLayout.getTabAt(position));}});
-
-
-                // Listeners for settings buttons / add friends buttons
-                settingsButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // go to settings activity
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                                intent.putExtra("tab", currentTab);
-                                startActivity(intent);
-                                finish();
-                            }
-
-                        },0);
-                    }
-                });
-
-                addFriendsButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // go to add users activity
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(MainActivity.this, AddUsersActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-
-                        },0);
-
-                    }
-                });
-                btcHeader.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse("https://anaypant.github.io/Qrated/"));
-                        startActivity(intent);
-                    }
-                });
-            }
-        }, DEBUG_NEWS);
-
-
-
-
-
-
-    }
+            }, DEBUG_NEWS);
+        }
 }

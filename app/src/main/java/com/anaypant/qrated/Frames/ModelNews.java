@@ -17,6 +17,23 @@ public class ModelNews {
     public ModelNews() {
     }
 
+    @Override
+    public String toString() {
+        return "ModelNews{" +
+                "author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", urlToImage='" + urlToImage + '\'' +
+                ", publishedAt='" + publishedAt + '\'' +
+                ", upVoteCt='" + upVoteCt + '\'' +
+                ", downVoteCt='" + downVoteCt + '\'' +
+                ", commentCt='" + commentCt + '\'' +
+                ", votes=" + votes +
+                ", comments=" + comments +
+                '}';
+    }
+
     public ModelNews(String author, String title, String description, String url, String urlToImage, String publishedAt, String upVoteCt, String downVoteCt, String commentCt, HashMap<String, Object> votes, HashMap<String, Object> comments) {
         this.author = author;
         this.title = title;
