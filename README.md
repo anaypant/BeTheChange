@@ -2,11 +2,8 @@
 > "Be the change that you wish to see in the world" - Mahatama Gandhi 
 
 # Website 
-[https://anaypant.github.io/bethechange/](https://anaypant.github.io/bethechange/)
+[https://qrated.weblium.site)](https://qrated.weblium.site/))
 
-# Design 
-
-# Test Plan
 ## MVP , v0
   * Create test account , verify that 2 FA works. You should get an email which you have to verify. 
   * Sign in the app - see your home page with categories and articles
@@ -19,10 +16,7 @@
   * Ability to sign out
 ### Nice to have
   * Edit a comment
-  
-### Website
-Thankyou to https://baskaufs.github.io/example_website/
 
-### Copyright
+# Copyright
 Creative Commons License
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/)
